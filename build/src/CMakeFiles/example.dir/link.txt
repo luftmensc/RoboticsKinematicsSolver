@@ -1,0 +1,1 @@
+/usr/bin/g++  -g   CMakeFiles/example.dir/__/examples/examples.cpp.o  -o example  -Wl,-rpath,/home/omer/robotics_ws/build/src libThreeDOFRobot.so 
