@@ -20,13 +20,20 @@ struct CircleTestParam {
     bool expectedIsInCircle;
 };
 
+struct InverseKinematicsTestParam {
+    Eigen::Vector3d endEffectorXYW;
+    Eigen::Vector3d expectedJointAngles;
+};
+
 class ForwardKinematicsTest : public ::testing::TestWithParam<ForwardKinematicsTestParam> {};
 
 class EndEffectorCircleTest : public ::testing::TestWithParam<CircleTestParam> {};
 
+class InverseKinematicsTest : public ::testing::TestWithParam<InverseKinematicsTestParam> {};
+
 
 // Parameterized test for checking forward kinematics
-TEST_P(ForwardKinematicsTest, CalculatesCorrectPosition) {
+TEST_P(ForwardKinematicsTest, ForwardKinematicsTest) {
     auto param = GetParam();
     auto robot = std::make_unique<ThreeDOFRobot>();
 
@@ -50,7 +57,7 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-TEST_P(EndEffectorCircleTest, CorrectlyIdentifiesCirclePosition) {
+TEST_P(EndEffectorCircleTest, EndEffectorCircleTest) {
     auto param = GetParam();
     ThreeDOFRobot robot;
     robot.setJointAngRadians(param.jointAnglesRadians);
@@ -69,7 +76,23 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
+TEST_P(InverseKinematicsTest, InverseKinematicsTest) {
+    auto param = GetParam();
+    ThreeDOFRobot robot;
+    Eigen::Vector3d jointAngles = robot.solveInverseKinematics(param.endEffectorXYW);
+    
+    EXPECT_NEAR(jointAngles[0], param.expectedJointAngles[0], 1e-2);
+    EXPECT_NEAR(jointAngles[1], param.expectedJointAngles[1], 1e-2);
+    EXPECT_NEAR(jointAngles[2], param.expectedJointAngles[2], 1e-2);
+}
 
+INSTANTIATE_TEST_SUITE_P(
+    InverseKinematicsTests,
+    InverseKinematicsTest,
+    ::testing::Values(
+        InverseKinematicsTestParam{Eigen::Vector3d(0.0, 0.0, 0), Eigen::Vector3d(0.0, 0.0, 0)}
+    )
+);
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

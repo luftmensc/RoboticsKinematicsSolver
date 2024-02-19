@@ -1,6 +1,7 @@
 #include "../include/KinematicsLib/ThreeDOFRRR.hpp"
 #include <cmath>
 #include <iostream>
+#include <limits>
 
 /*
  * This is the implementation file for the ThreeDOFRRR class.
@@ -32,6 +33,16 @@ void ThreeDOFRobot::setJointAngRadians(const Eigen::Vector3d &angles)
 void ThreeDOFRobot::setLinkLengths(const Eigen::Vector3d &lengths)
 {
     linkLengths = lengths;
+}
+
+Eigen::Vector3d ThreeDOFRobot::getJointAngles(void)
+{
+    return jointAngles;
+}
+
+Eigen::Vector3d ThreeDOFRobot::getLinkLengths(void)
+{
+    return linkLengths;
 }
 
 Eigen::Vector3d ThreeDOFRobot::solveForwardKinematicsDH() //Modeling with Denevit-Hartenberg (DH) Parameters, i'm using mainly this one
@@ -105,4 +116,33 @@ bool ThreeDOFRobot::isEndEffectorInCircle(const double &circle_x, const double &
     // Check if the end effector is within the circle
     return (position_XYW[0] - circle_x) * (position_XYW[0] - circle_x) + (position_XYW[1] - circle_y) * (position_XYW[1] - circle_y) <= r * r;
     
+}
+
+Eigen::Vector3d ThreeDOFRobot::solveInverseKinematics(const Eigen::Vector3d &endEffectorXYW)
+{
+    double distanceToTarget = sqrt(endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1]);
+    
+    // Check if the target is within reach
+    double maxReach = linkLengths[0] + linkLengths[1] + linkLengths[2];
+
+    if(endEffectorXYW[0]*endEffectorXYW[0] + endEffectorXYW[1]*endEffectorXYW[1] > maxReach*maxReach)
+    {
+        std::cerr << "Warning: Target is out of reach." << std::endl;
+        return Eigen::Vector3d(std::numeric_limits<double>::quiet_NaN(),
+                        std::numeric_limits<double>::quiet_NaN(),
+                        std::numeric_limits<double>::quiet_NaN());
+    }
+    // Convert joint angles from degrees to radians
+    double phi = endEffectorXYW[2];
+    double p_2x = endEffectorXYW[0] - linkLengths[2] * cos(phi);
+    double p_2y = endEffectorXYW[1] - linkLengths[2] * sin(phi);
+
+    double th2 = acos((p_2x * p_2x + p_2y * p_2y - linkLengths[0] * linkLengths[0] - linkLengths[1] * linkLengths[1]) / (2 * linkLengths[0] * linkLengths[1]));
+    double th1 = atan2(p_2y, p_2x) - atan2(linkLengths[1] * sin(th2), linkLengths[0] + linkLengths[1] * cos(th2));
+
+    double th3 = phi - th1 - th2;
+
+    return Eigen::Vector3d(th1, th2, th3);
+
+
 }

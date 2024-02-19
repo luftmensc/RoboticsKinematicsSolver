@@ -22,6 +22,11 @@ int main()
     std::cout<< "Is end effector in circle: " << robot->isEndEffectorInCircle(0.0, 0.0, 1, M_PI/2, M_PI/2, M_PI/2) << std::endl; //right on the circle test
     std::cout<< "Is end effector in circle: " << robot->isEndEffectorInCircle(0.0, 0.0, 0.9, M_PI/2, M_PI/2, M_PI/2) << std::endl; //outside the circle test
 
+    // Inverse kinematics Test:
+    Eigen::Vector3d endEffectorXYW = Eigen::Vector3d(0,33,M_PI/2);
+    Eigen::Vector3d jointAngles = robot->solveInverseKinematics(endEffectorXYW);
+    std::cout << "Inverse kinematics: " << jointAngles.transpose() << std::endl;
+
 
     return 0;
 }
