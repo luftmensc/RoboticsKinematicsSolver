@@ -27,6 +27,11 @@ public:
     Eigen::Vector3d solveForwardKinematicsLS(void);
     Eigen::Matrix4d getCalculatedTransformationMatrix(void);
 
+    //task 3
+    bool isEndEffectorInCircle(const double &circle_x, const double &circle_y, const double &r,
+                               const double &th1, const double &th2, const double &th3);
+
+
 private:
     Eigen::Vector3d jointAngles;
     Eigen::Vector3d linkLengths;
@@ -36,4 +41,3 @@ private:
 };
 
 #endif // THREE_DOF_RRR_HPP
-

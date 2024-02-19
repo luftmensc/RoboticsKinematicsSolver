@@ -9,12 +9,21 @@
 #endif
 
 struct ForwardKinematicsTestParam {
-    Eigen::Vector3d jointAngles; // Angles in degrees
+    Eigen::Vector3d jointAngles;
     Eigen::Vector3d linkLengths;
     Eigen::Vector3d expectedPosition;
 };
 
+struct CircleTestParam {
+    Eigen::Vector3d jointAnglesRadians; 
+    double circle_x, circle_y, radius;
+    bool expectedIsInCircle;
+};
+
 class ForwardKinematicsTest : public ::testing::TestWithParam<ForwardKinematicsTestParam> {};
+
+class EndEffectorCircleTest : public ::testing::TestWithParam<CircleTestParam> {};
+
 
 // Parameterized test for checking forward kinematics
 TEST_P(ForwardKinematicsTest, CalculatesCorrectPosition) {
@@ -41,7 +50,29 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
+TEST_P(EndEffectorCircleTest, CorrectlyIdentifiesCirclePosition) {
+    auto param = GetParam();
+    ThreeDOFRobot robot;
+    robot.setJointAngRadians(param.jointAnglesRadians);
+    bool isInCircle = robot.isEndEffectorInCircle(param.circle_x, param.circle_y, param.radius,
+                                                  param.jointAnglesRadians[0], param.jointAnglesRadians[1], param.jointAnglesRadians[2]);
+    
+    EXPECT_EQ(isInCircle, param.expectedIsInCircle);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    EndEffectorCircleTests,
+    EndEffectorCircleTest,
+    ::testing::Values(
+        CircleTestParam{Eigen::Vector3d(M_PI/6, M_PI/4, M_PI/3), 2.0, 2.0, 3.0, true},
+        CircleTestParam{Eigen::Vector3d(M_PI/2, M_PI/2, M_PI/2), 10.0, 10.0, 5.0, false}
+    )
+);
+
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+
+

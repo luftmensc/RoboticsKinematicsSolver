@@ -93,3 +93,16 @@ Eigen::Vector3d ThreeDOFRobot::solveForwardKinematicsLS() //Brute Force Algebrai
     // Return the position and orientation of the end effector as an Eigen::Vector3d
     return Eigen::Vector3d(x, y, theta_p);
 }
+
+bool ThreeDOFRobot::isEndEffectorInCircle(const double &circle_x, const double &circle_y, const double &r, const double &th1, const double &th2, const double &th3)
+{
+    // Set the joint angles
+    setJointAngRadians({th1, th2, th3});
+
+    // Solve the forward kinematics
+    Eigen::Vector3d position_XYW = solveForwardKinematicsDH();
+    std::cout << "End effector position (DH): " << position_XYW.transpose() << std::endl;
+    // Check if the end effector is within the circle
+    return (position_XYW[0] - circle_x) * (position_XYW[0] - circle_x) + (position_XYW[1] - circle_y) * (position_XYW[1] - circle_y) <= r * r;
+    
+}

@@ -19,6 +19,9 @@ int main()
     endEffectorPosition = robot->solveForwardKinematicsLS();
     std::cout << "End effector position (LS): " << endEffectorPosition.transpose() << std::endl;
 
+    std::cout<< "Is end effector in circle: " << robot->isEndEffectorInCircle(0.0, 0.0, 1, M_PI/2, M_PI/2, M_PI/2) << std::endl; //right on the circle test
+    std::cout<< "Is end effector in circle: " << robot->isEndEffectorInCircle(0.0, 0.0, 0.9, M_PI/2, M_PI/2, M_PI/2) << std::endl; //outside the circle test
+
 
     return 0;
 }
