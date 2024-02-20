@@ -26,10 +26,13 @@ int main()
     // Inverse kinematics Test:
     Eigen::Vector3d endEffectorXYW = Eigen::Vector3d(-1, 0 ,M_PI/4);
     Eigen::Vector3d jointAngles = robot->solveInverseKinematics(endEffectorXYW);
-    std::cout<<"While end effector is at: "<<endEffectorXYW.transpose()<<std::endl;
-    std::cout << "\nInverse kinematics: " << jointAngles.transpose() << " in degrees: " << jointAngles.transpose() * 180.0 / M_PI << " - Input end effector position: " << endEffectorXYW.transpose() << std::endl;
+    std::cout<<"\nWhile end effector is at: "<<endEffectorXYW.transpose()<<std::endl;
+    std::cout << "Inverse kinematics: " << jointAngles.transpose() << " in degrees: " << jointAngles.transpose() * 180.0 / M_PI  << std::endl;
     std::vector<Eigen::VectorXd> jointAngles2 = robot->solveInverseKinematics2Solution(endEffectorXYW);
-    std::cout << "Inverse kinematics with 2 solutions, \n\nfirst:  " << jointAngles2[0].transpose() << " in degrees: " << jointAngles2[0].transpose() * 180.0 / M_PI << "\nSecnd: " << jointAngles2[1].transpose() << " in degrees: " << jointAngles2[1].transpose() * 180.0 / M_PI << "\n\n";
+    std::cout << "Inverse kinematics with 2 solutions, \n\nfirst:   " << jointAngles2[0].transpose() << " in degrees: " << jointAngles2[0].transpose() * 180.0 / M_PI << "\nSecond: " << jointAngles2[1].transpose() << " in degrees: " << jointAngles2[1].transpose() * 180.0 / M_PI << "\n\n";
 
+    Eigen::Vector3d desiredPosition = Eigen::Vector3d(-1, 0, M_PI/4);
+    Eigen::Vector3d jointAnglesNR = robot->solveInverseKinematicsNR(desiredPosition);
+    std::cout << "Inverse kinematics using Newton-Raphson: " << jointAnglesNR.transpose() << " in degrees: " << jointAnglesNR.transpose() * 180.0 / M_PI << std::endl;
     return 0;
 }

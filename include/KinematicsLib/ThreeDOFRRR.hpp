@@ -37,7 +37,7 @@ public:
 
     //task 4 numerical optimization Newthon-Raphson Method solution
     Eigen::Matrix3d computeJacobian(const Eigen::Vector3d& theta);
-    void solveInverseKinematicsNR(const Eigen::Vector3d& desiredPosition);
+    Eigen::Vector3d solveInverseKinematicsNR(const Eigen::Vector3d& desiredPosition);
 
 
 

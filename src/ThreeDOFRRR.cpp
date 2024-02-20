@@ -231,10 +231,10 @@ Eigen::Matrix3d ThreeDOFRobot::computeJacobian(const Eigen::Vector3d &theta)
     return J;
 }
 
-void ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &desiredPosition)
+Eigen::Vector3d ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &desiredPosition)
 {
     // Initial guess for the joint angles
-    Eigen::Vector3d theta = Eigen::Vector3d(0, M_PI / 6, M_PI / 3); // Example initial guess
+    Eigen::Vector3d theta = Eigen::Vector3d(0, 0, 0); // Example initial guess
 
     int maxIterations = 1000;
     double tolerance = 1e-6;
@@ -261,6 +261,30 @@ void ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &desiredPosit
         Eigen::Vector3d deltaTheta = J.inverse() * error;
         theta += deltaTheta;
     }
+    
+    auto normalizeRadians = [&](double angle)
+    {
+        angle = std::fmod(angle, 2 * M_PI);
+        if (angle > M_PI)
+            angle -= 2 * M_PI;
+        else if (angle <= -M_PI)
+            angle += 2 * M_PI;
+        return angle;
+    };
+    theta(0) = normalizeRadians(theta(0));
+    theta(1) = normalizeRadians(theta(1));
+    theta(2) = normalizeRadians(theta(2));
 
-    std::cout << "Solution: " << theta.transpose() * 180 / M_PI << std::endl;
+        // Check for NaN in the solution
+    if (std::isnan(theta(0)) || std::isnan(theta(1)) || std::isnan(theta(2)))
+    {
+        std::cerr << "Solution did not converge." << std::endl;
+        // Handle the non-convergence case, e.g., by returning a vector of NaNs
+        return Eigen::Vector3d(std::numeric_limits<double>::quiet_NaN(),
+                               std::numeric_limits<double>::quiet_NaN(),
+                               std::numeric_limits<double>::quiet_NaN());
+    }
+
+    //std::cout << "Solution: " << theta.transpose() * 180 / M_PI << std::endl;
+    return theta;
 }
