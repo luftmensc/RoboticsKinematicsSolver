@@ -4,6 +4,13 @@
 #include <cmath>
 #include <memory> 
 
+/*
+* This is the test file for the ThreeDOFRRR class.
+* All angles are in radians inside the test cases.
+* Input test cases and expected results are in radians normalized between -pi and pi.
+* (-180,180]  -180 not included, 180 included
+*/
+
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
@@ -37,14 +44,14 @@ TEST_P(ForwardKinematicsTest, ForwardKinematicsTest) {
     auto param = GetParam();
     auto robot = std::make_unique<ThreeDOFRobot>();
 
-    Eigen::Vector3d jointAnglesRadians = param.jointAngles * M_PI / 180.0;
+    Eigen::Vector3d jointAnglesRadians = param.jointAngles;
     robot->setJointAngRadians(jointAnglesRadians);
     robot->setLinkLengths(param.linkLengths);
     Eigen::Vector3d position = robot->solveForwardKinematicsDH();
     
-    EXPECT_NEAR(position[0], param.expectedPosition[0], 1e-2);
-    EXPECT_NEAR(position[1], param.expectedPosition[1], 1e-2);
-    EXPECT_NEAR(position[2], param.expectedPosition[2], 1e-2);
+    EXPECT_NEAR(position[0], param.expectedPosition[0], 1e-3);
+    EXPECT_NEAR(position[1], param.expectedPosition[1], 1e-3);
+    EXPECT_NEAR(position[2], param.expectedPosition[2], 1e-3);
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -52,8 +59,9 @@ INSTANTIATE_TEST_SUITE_P(
     ForwardKinematicsTest,
     ::testing::Values(
         ForwardKinematicsTestParam{Eigen::Vector3d(0.0, 0.0, 0.0), Eigen::Vector3d(1.0, 1.0, 1.0), Eigen::Vector3d(3.0, 0.0, 0.0)},
-        ForwardKinematicsTestParam{Eigen::Vector3d(90.0, 90.0, 0.0), Eigen::Vector3d(1.0, 1.0, 1.0), Eigen::Vector3d(-2.0, 1.0, M_PI)},
-        ForwardKinematicsTestParam{Eigen::Vector3d(30.0, 60.0, 90.0), Eigen::Vector3d(1.0, 1.0, 1.0), Eigen::Vector3d(-0.1339, 1.5, M_PI)}
+        ForwardKinematicsTestParam{Eigen::Vector3d(M_PI/2,M_PI/2, 0.0), Eigen::Vector3d(1.0, 1.0, 1.0), Eigen::Vector3d(-2.0, 1.0, M_PI)},
+        ForwardKinematicsTestParam{Eigen::Vector3d(M_PI/6, M_PI/3, M_PI/2), Eigen::Vector3d(1.0, 1.0, 1.0), Eigen::Vector3d(-0.1339, 1.5, M_PI)},
+        ForwardKinematicsTestParam{Eigen::Vector3d(M_PI/6, M_PI/3, -M_PI/2), Eigen::Vector3d(1.0, 1.0, 1.0), Eigen::Vector3d(1.866, 1.5, 0.0)}
     )
 );
 
@@ -76,26 +84,27 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
+
 TEST_P(InverseKinematicsTest, InverseKinematicsTest) {
     auto param = GetParam();
-    ThreeDOFRobot robot;
-    Eigen::Vector3d jointAngles = robot.solveInverseKinematics(param.endEffectorXYW);
+    std::unique_ptr<ThreeDOFRobot> robot = std::make_unique<ThreeDOFRobot>();
+    Eigen::Vector3d jointAngles = robot->solveInverseKinematics(param.endEffectorXYW); // link lengths are set to 1.0, 1.0, 1.0 in the constructor
     
-    EXPECT_NEAR(jointAngles[0], param.expectedJointAngles[0], 1e-2);
-    EXPECT_NEAR(jointAngles[1], param.expectedJointAngles[1], 1e-2);
-    EXPECT_NEAR(jointAngles[2], param.expectedJointAngles[2], 1e-2);
+    EXPECT_NEAR(jointAngles[0], param.expectedJointAngles[0], 1e-3);
+    EXPECT_NEAR(jointAngles[1], param.expectedJointAngles[1], 1e-3);
+    EXPECT_NEAR(jointAngles[2], param.expectedJointAngles[2], 1e-3);
 }
 
 INSTANTIATE_TEST_SUITE_P(
     InverseKinematicsTests,
     InverseKinematicsTest,
     ::testing::Values(
-        InverseKinematicsTestParam{Eigen::Vector3d(0.0, 0.0, 0), Eigen::Vector3d(0.0, 0.0, 0)}
+        InverseKinematicsTestParam{Eigen::Vector3d(3.0, 0.0, 0.0), Eigen::Vector3d(0.0, 0.0, 0.0)},
+        InverseKinematicsTestParam{Eigen::Vector3d(1.866, 1.5, 0.0), Eigen::Vector3d(M_PI/6, M_PI/3,-M_PI/2)},
+        InverseKinematicsTestParam{Eigen::Vector3d(-1.7071,0.292,(-135*M_PI/180)), Eigen::Vector3d(M_PI/2, M_PI/2, M_PI/4)}
     )
 );
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-
-

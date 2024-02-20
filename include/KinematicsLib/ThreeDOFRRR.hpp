@@ -31,8 +31,15 @@ public:
     bool isEndEffectorInCircle(const double &circle_x, const double &circle_y, const double &r,
                                const double &th1, const double &th2, const double &th3);
 
-    //task 4
+    //task 4 algebraic solution
     Eigen::Vector3d solveInverseKinematics(const Eigen::Vector3d &endEffectorXYW);
+    std::vector<Eigen::VectorXd> solveInverseKinematics2Solution(const Eigen::Vector3d &endEffectorXYW);
+
+    //task 4 numerical optimization Newthon-Raphson Method solution
+    Eigen::Matrix3d computeJacobian(const Eigen::Vector3d& theta);
+    void solveInverseKinematicsNR(const Eigen::Vector3d& desiredPosition);
+
+
 
 
 
