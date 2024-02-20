@@ -11,20 +11,11 @@
  * 2. solveForwardKinematicsLS: This method solves the forward kinematics problem using the brute force algebraic model.
  */
 
-ThreeDOFRobot::ThreeDOFRobot()
-{
-    jointAngles = Eigen::Vector3d{0, M_PI / 6, M_PI / 3};
-    linkLengths = Eigen::Vector3d{1, 1, 1};
-    calculatedTransformationMatrix = Eigen::Matrix4d::Identity();
-}
+ThreeDOFRobot::ThreeDOFRobot(Eigen::Vector3d jointAngles, Eigen::Vector3d linkLengths) : jointAngles(jointAngles), linkLengths(linkLengths) {}
 
-ThreeDOFRobot::ThreeDOFRobot(const std::vector<double> &jointAngles, const std::vector<double> &linkLengths)
-{
-    setJointAngRadians(Eigen::Vector3d(jointAngles[0], jointAngles[1], jointAngles[2]));
-    setLinkLengths(Eigen::Vector3d(linkLengths[0], linkLengths[1], linkLengths[2]));
-}
+ThreeDOFRobot::ThreeDOFRobot() = default;
 
-ThreeDOFRobot::~ThreeDOFRobot() {}
+ThreeDOFRobot::~ThreeDOFRobot() = default;
 
 void ThreeDOFRobot::setJointAngRadians(const Eigen::Vector3d &angles)
 {
@@ -36,26 +27,31 @@ void ThreeDOFRobot::setLinkLengths(const Eigen::Vector3d &lengths)
     linkLengths = lengths;
 }
 
-Eigen::Vector3d ThreeDOFRobot::getJointAngles(void)
+Eigen::Vector3d ThreeDOFRobot::getJointAngles(void) const
 {
     return jointAngles;
 }
 
-Eigen::Vector3d ThreeDOFRobot::getLinkLengths(void)
+Eigen::Vector3d ThreeDOFRobot::getLinkLengths(void) const
 {
     return linkLengths;
 }
 
 Eigen::Vector3d ThreeDOFRobot::solveForwardKinematicsDH() // Modeling with Denevit-Hartenberg (DH) Parameters, i'm using mainly this one
 {
-    Eigen::Matrix4d T = Eigen::Matrix4d::Identity();
-    double alpha = 0.0;
-    double d = 0.0;
+    Eigen::Matrix4d T{Eigen::Matrix4d::Identity()};
+
+    // In 3DoF RRR Planar robot, alpha and d are always zero
+    double alpha{0.0};
+    double d{0.0};
+
     for (size_t i = 0; i < jointAngles.size(); ++i)
     {
         T *= calculateTransformationMatrix(jointAngles[i], linkLengths[i], alpha, d);
     }
-    calculatedTransformationMatrix = T;
+
+    calculatedTransformationMatrix = T; // Save the calculated transformation matrix
+
     Eigen::Vector3d endEffectorPosition = T.block<3, 1>(0, 3);
 
     Eigen::Matrix3d rotationMatrix = T.block<3, 3>(0, 0);
@@ -78,9 +74,9 @@ Eigen::Vector3d ThreeDOFRobot::solveForwardKinematicsLS() // Brute Force Algebra
 {
 
     // Convert joint angles from degrees to radians
-    double theta1_rad = jointAngles[0];
-    double theta2_rad = jointAngles[1];
-    double theta3_rad = jointAngles[2];
+    const double theta1_rad = jointAngles[0];
+    const double theta2_rad = jointAngles[1];
+    const double theta3_rad = jointAngles[2];
 
     double x = 0.0;
     double y = 0.0;
@@ -112,7 +108,7 @@ bool ThreeDOFRobot::isEndEffectorInCircle(const double &circle_x, const double &
     setJointAngRadians({th1, th2, th3});
 
     // Solve the forward kinematics
-    Eigen::Vector3d position_XYW = solveForwardKinematicsDH();
+    Eigen::Vector3d position_XYW = solveForwardKinematicsDH(); // Modeling with Denevit-Hartenberg (DH) Parameters, soleForwardKinematicsLs can be used also!
     std::cout << "End effector position (DH): " << position_XYW.transpose() << std::endl;
     // Check if the end effector is within the circle
     return (position_XYW[0] - circle_x) * (position_XYW[0] - circle_x) + (position_XYW[1] - circle_y) * (position_XYW[1] - circle_y) <= r * r;
@@ -120,13 +116,13 @@ bool ThreeDOFRobot::isEndEffectorInCircle(const double &circle_x, const double &
 
 Eigen::Vector3d ThreeDOFRobot::solveInverseKinematics(const Eigen::Vector3d &endEffectorXYW)
 {
-    const double distanceToTarget = sqrt(endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1]);
 
     // Check if the target is within reach
     const double maxReach = linkLengths[0] + linkLengths[1] + linkLengths[2];
 
     if (endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1] > maxReach * maxReach)
     {
+
         std::cerr << "Warning: Target is out of reach." << std::endl;
         return Eigen::Vector3d(std::numeric_limits<double>::quiet_NaN(),
                                std::numeric_limits<double>::quiet_NaN(),
@@ -142,7 +138,7 @@ Eigen::Vector3d ThreeDOFRobot::solveInverseKinematics(const Eigen::Vector3d &end
     double th1 = atan2(p_2y, p_2x) - atan2(linkLengths[1] * sin(th2), linkLengths[0] + linkLengths[1] * cos(th2));
 
     // Normalize the angles between -pi and pi
-    auto normalizeRadians = [&](double angle)
+    auto normalizeRadians = [](double angle)
     {
         angle = std::fmod(angle, 2 * M_PI);
         if (angle > M_PI)
@@ -157,9 +153,9 @@ Eigen::Vector3d ThreeDOFRobot::solveInverseKinematics(const Eigen::Vector3d &end
     return Eigen::Vector3d(th1, th2, th3);
 }
 
-std::vector<Eigen::VectorXd> ThreeDOFRobot::solveInverseKinematics2Solution(const Eigen::Vector3d &endEffectorXYW)
+std::vector<Eigen::Vector3d> ThreeDOFRobot::solveInverseKinematics2Solution(const Eigen::Vector3d &endEffectorXYW)
 {
-    const double distanceToTarget = sqrt(endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1]);
+    std::vector<Eigen::Vector3d> solutions;
 
     // Check if the target is within reach
     const double maxReach = linkLengths[0] + linkLengths[1] + linkLengths[2];
@@ -167,7 +163,7 @@ std::vector<Eigen::VectorXd> ThreeDOFRobot::solveInverseKinematics2Solution(cons
     if (endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1] > maxReach * maxReach)
     {
         std::cerr << "Warning: Target is out of reach." << std::endl;
-        std::vector<Eigen::VectorXd> solutions;
+
         Eigen::Vector3d nanSolution = Eigen::Vector3d(std::numeric_limits<double>::quiet_NaN(),
                                                       std::numeric_limits<double>::quiet_NaN(),
                                                       std::numeric_limits<double>::quiet_NaN());
@@ -175,9 +171,8 @@ std::vector<Eigen::VectorXd> ThreeDOFRobot::solveInverseKinematics2Solution(cons
         solutions.push_back(nanSolution);
         return solutions;
     }
-    std::vector<Eigen::VectorXd> solutions;
 
-    const double phi = endEffectorXYW[2];
+    double phi = endEffectorXYW[2];
     double p_2x = endEffectorXYW[0] - linkLengths[2] * cos(phi);
     double p_2y = endEffectorXYW[1] - linkLengths[2] * sin(phi);
 
@@ -186,7 +181,7 @@ std::vector<Eigen::VectorXd> ThreeDOFRobot::solveInverseKinematics2Solution(cons
     double th1 = atan2(p_2y, p_2x) - atan2(linkLengths[1] * sin(th2), linkLengths[0] + linkLengths[1] * cos(th2));
 
     // Normalize the angles between -pi and pi
-    auto normalizeRadians = [&](double angle)
+    auto normalizeRadians = [](double angle)
     {
         angle = std::fmod(angle, 2 * M_PI);
         if (angle > M_PI)
@@ -198,6 +193,7 @@ std::vector<Eigen::VectorXd> ThreeDOFRobot::solveInverseKinematics2Solution(cons
 
     double th3 = phi - th1 - th2;
     th3 = normalizeRadians(th3);
+    solutions.push_back(Eigen::Vector3d(th1, th2, th3));
 
     double th2_2 = -th2;
     double th1_2 = atan2(p_2y, p_2x) - atan2(linkLengths[1] * sin(th2_2), linkLengths[0] + linkLengths[1] * cos(th2_2));
@@ -205,8 +201,8 @@ std::vector<Eigen::VectorXd> ThreeDOFRobot::solveInverseKinematics2Solution(cons
     th3_2 = normalizeRadians(th3_2);
     Eigen::Vector3d sol1{th1, th2, th3};
     Eigen::Vector3d sol2{th1_2, th2_2, th3_2};
-    
-    return {sol1, sol2};
+
+    return solutions;
 }
 
 Eigen::Matrix3d ThreeDOFRobot::computeJacobian(const Eigen::Vector3d &theta)
@@ -261,8 +257,8 @@ Eigen::Vector3d ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &d
         Eigen::Vector3d deltaTheta = J.inverse() * error;
         theta += deltaTheta;
     }
-    
-    auto normalizeRadians = [&](double angle)
+
+    auto normalizeRadians = [](double angle)
     {
         angle = std::fmod(angle, 2 * M_PI);
         if (angle > M_PI)
@@ -275,7 +271,7 @@ Eigen::Vector3d ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &d
     theta(1) = normalizeRadians(theta(1));
     theta(2) = normalizeRadians(theta(2));
 
-        // Check for NaN in the solution
+    // Check for NaN in the solution
     if (std::isnan(theta(0)) || std::isnan(theta(1)) || std::isnan(theta(2)))
     {
         std::cerr << "Solution did not converge." << std::endl;
@@ -285,6 +281,6 @@ Eigen::Vector3d ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &d
                                std::numeric_limits<double>::quiet_NaN());
     }
 
-    //std::cout << "Solution: " << theta.transpose() * 180 / M_PI << std::endl;
+    // std::cout << "Solution: " << theta.transpose() * 180 / M_PI << std::endl;
     return theta;
 }
