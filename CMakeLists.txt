@@ -15,4 +15,12 @@ include_directories(include)
 # Add the subdirectories
 add_subdirectory(src)
 add_subdirectory(tests)
-add_subdirectory(external/googletest)
+
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG release-1.11.0 # Specify the desired version
+)
+FetchContent_MakeAvailable(googletest)
+
