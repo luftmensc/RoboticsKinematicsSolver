@@ -106,11 +106,8 @@ bool ThreeDOFRobot::isEndEffectorInCircle(const double &circle_x, const double &
 {
     // Set the joint angles
     setJointAngRadians({th1, th2, th3});
-
-    // Solve the forward kinematics
     Eigen::Vector3d position_XYW = solveForwardKinematicsDH(); // Modeling with Denevit-Hartenberg (DH) Parameters, soleForwardKinematicsLs can be used also!
-    std::cout << "End effector position (DH): " << position_XYW.transpose() << std::endl;
-    // Check if the end effector is within the circle
+    // Check if the end effector is within the circle and return the result
     return (position_XYW[0] - circle_x) * (position_XYW[0] - circle_x) + (position_XYW[1] - circle_y) * (position_XYW[1] - circle_y) <= r * r;
 }
 
@@ -120,13 +117,12 @@ Eigen::Vector3d ThreeDOFRobot::solveInverseKinematics(const Eigen::Vector3d &end
     // Check if the target is within reach
     const double maxReach = linkLengths[0] + linkLengths[1] + linkLengths[2];
 
-    if (endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1] > maxReach * maxReach)
-    {
-
+    if (endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1] > maxReach * maxReach) {
         std::cerr << "Warning: Target is out of reach." << std::endl;
-        return Eigen::Vector3d(std::numeric_limits<double>::quiet_NaN(),
-                               std::numeric_limits<double>::quiet_NaN(),
-                               std::numeric_limits<double>::quiet_NaN());
+        // Use infinity to indicate out of reach
+        return Eigen::Vector3d(std::numeric_limits<double>::infinity(),
+                               std::numeric_limits<double>::infinity(),
+                               std::numeric_limits<double>::infinity());
     }
 
     const double phi = endEffectorXYW[2];
@@ -160,16 +156,17 @@ std::vector<Eigen::Vector3d> ThreeDOFRobot::solveInverseKinematics2Solution(cons
     // Check if the target is within reach
     const double maxReach = linkLengths[0] + linkLengths[1] + linkLengths[2];
 
-    if (endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1] > maxReach * maxReach)
-    {
+    if (endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1] > maxReach * maxReach) {
         std::cerr << "Warning: Target is out of reach." << std::endl;
 
-        Eigen::Vector3d nanSolution = Eigen::Vector3d(std::numeric_limits<double>::quiet_NaN(),
-                                                      std::numeric_limits<double>::quiet_NaN(),
-                                                      std::numeric_limits<double>::quiet_NaN());
-        solutions.push_back(nanSolution);
-        solutions.push_back(nanSolution);
+        // Use infinity to indicate out of reach
+        Eigen::Vector3d solution{std::numeric_limits<double>::infinity(),
+                                 std::numeric_limits<double>::infinity(),
+                                 std::numeric_limits<double>::infinity()};
+        solutions.push_back(solution);
+        solutions.push_back(solution);
         return solutions;
+        
     }
 
     double phi = endEffectorXYW[2];
@@ -195,12 +192,21 @@ std::vector<Eigen::Vector3d> ThreeDOFRobot::solveInverseKinematics2Solution(cons
     th3 = normalizeRadians(th3);
     solutions.push_back(Eigen::Vector3d(th1, th2, th3));
 
+    /*
+     * Check if the target is on the edge of the workspace. If so, return only one solution. In the test cases,
+     * we will check vector size to determine if the target is on the edge of the workspace.
+     */
+
+    if (endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1] == maxReach * maxReach)
+    {
+        return solutions;
+    }
+
     double th2_2 = -th2;
     double th1_2 = atan2(p_2y, p_2x) - atan2(linkLengths[1] * sin(th2_2), linkLengths[0] + linkLengths[1] * cos(th2_2));
     double th3_2 = phi - th1_2 - th2_2;
     th3_2 = normalizeRadians(th3_2);
-    Eigen::Vector3d sol1{th1, th2, th3};
-    Eigen::Vector3d sol2{th1_2, th2_2, th3_2};
+    solutions.push_back(Eigen::Vector3d(th1_2, th2_2, th3_2));
 
     return solutions;
 }
@@ -230,7 +236,7 @@ Eigen::Matrix3d ThreeDOFRobot::computeJacobian(const Eigen::Vector3d &theta)
 Eigen::Vector3d ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &desiredPosition)
 {
     // Initial guess for the joint angles
-    Eigen::Vector3d theta = Eigen::Vector3d(0, 0, 0); // Example initial guess
+    Eigen::Vector3d theta = getJointAngles();
 
     int maxIterations = 1000;
     double tolerance = 1e-6;

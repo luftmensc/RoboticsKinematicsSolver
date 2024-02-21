@@ -12,6 +12,10 @@ find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 # Include directories
 include_directories(include)
 
+# For executables in root directory and target_link_libraries
+add_executable(example examples.cpp)
+target_link_libraries(example ThreeDOFRobot)
+
 # Add the subdirectories
 add_subdirectory(src)
 add_subdirectory(tests)
