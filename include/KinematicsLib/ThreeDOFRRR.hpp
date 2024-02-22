@@ -19,8 +19,10 @@ public:
 
     void setJointAngRadians(const Eigen::Vector3d &angles);
     void setLinkLengths(const Eigen::Vector3d &lengths);
+    void setEndEffectorPosition(const Eigen::Vector3d &position);
     Eigen::Vector3d getJointAngles(void) const;
     Eigen::Vector3d getLinkLengths(void) const;
+    Eigen::Vector3d getEndEffectorPosition(void) const;
 
     //task 1-2
     Eigen::Vector3d solveForwardKinematicsDH();
@@ -42,6 +44,7 @@ public:
 private:
     Eigen::Vector3d jointAngles{10*M_PI/180, 20*M_PI/180, 30*M_PI/180}; //escaping singularity
     Eigen::Vector3d linkLengths{1, 1, 1};
+    Eigen::Vector3d endEffectorPosition;
 
     Eigen::Matrix4d calculatedTransformationMatrix; //Model of the robot in DH parameters task 1
     Eigen::Matrix4d calculateTransformationMatrix(const double &theta, const double &a, const double &alpha, const double &d);

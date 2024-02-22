@@ -20,6 +20,16 @@ target_link_libraries(example ThreeDOFRobot)
 add_subdirectory(src)
 add_subdirectory(tests)
 
+# Copy Python script to build directory after the build is complete
+add_custom_command(
+  TARGET example POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy
+          ${CMAKE_SOURCE_DIR}/visualize_robot.py
+          ${CMAKE_CURRENT_BINARY_DIR}/visualize_robot.py
+  COMMENT "Copying visualize_robot.py to build directory"
+)
+
+
 include(FetchContent)
 FetchContent_Declare(
   googletest

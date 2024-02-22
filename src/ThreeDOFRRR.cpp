@@ -37,6 +37,15 @@ Eigen::Vector3d ThreeDOFRobot::getLinkLengths(void) const
     return linkLengths;
 }
 
+void ThreeDOFRobot::setEndEffectorPosition(const Eigen::Vector3d &position)
+{
+    endEffectorPosition = position;
+}
+
+Eigen::Vector3d ThreeDOFRobot::getEndEffectorPosition(void) const
+{
+    return endEffectorPosition;
+}
 Eigen::Vector3d ThreeDOFRobot::solveForwardKinematicsDH() // Modeling with Denevit-Hartenberg (DH) Parameters, i'm using mainly this one
 {
     Eigen::Matrix4d T{Eigen::Matrix4d::Identity()};
