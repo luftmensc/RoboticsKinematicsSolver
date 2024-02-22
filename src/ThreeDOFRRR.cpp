@@ -117,6 +117,7 @@ bool ThreeDOFRobot::isEndEffectorInCircle(const double &circle_x, const double &
     setJointAngRadians({th1, th2, th3});
     Eigen::Vector3d position_XYW = solveForwardKinematicsDH(); // Modeling with Denevit-Hartenberg (DH) Parameters, soleForwardKinematicsLs can be used also!
     // Check if the end effector is within the circle and return the result
+    setEndEffectorPosition(position_XYW);
     return (position_XYW[0] - circle_x) * (position_XYW[0] - circle_x) + (position_XYW[1] - circle_y) * (position_XYW[1] - circle_y) <= r * r;
 }
 
@@ -206,10 +207,10 @@ std::vector<Eigen::Vector3d> ThreeDOFRobot::solveInverseKinematics2Solution(cons
      * we will check vector size to determine if the target is on the edge of the workspace.
      */
 
-    if (endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1] == maxReach * maxReach)
+    /*if (endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1] == maxReach * maxReach)
     {
         return solutions;
-    }
+    }*/
 
     double th2_2 = -th2;
     double th1_2 = atan2(p_2y, p_2x) - atan2(linkLengths[1] * sin(th2_2), linkLengths[0] + linkLengths[1] * cos(th2_2));
@@ -247,8 +248,9 @@ Eigen::Vector3d ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &d
     // Initial guess for the joint angles
     Eigen::Vector3d theta = getJointAngles();
 
-    int maxIterations = 1000;
+    int maxIterations = 10000;
     double tolerance = 1e-6;
+    Eigen::Vector3d error;
     for (int iter = 0; iter < maxIterations; ++iter)
     {
         // Step 2: Calculate current end-effector position using forward kinematics
@@ -259,7 +261,8 @@ Eigen::Vector3d ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &d
         Eigen::Matrix3d J = computeJacobian(theta);
 
         // Step 4: Calculate position error
-        Eigen::Vector3d error = desiredPosition - currentPos;
+        error = desiredPosition - currentPos;
+        
 
         // Check for convergence
         if (error.norm() < tolerance)
@@ -268,10 +271,11 @@ Eigen::Vector3d ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &d
             break;
         }
 
-        // Step 5: Update joint angles using Newton-Raphson methodx"x"
+        // Step 5: Update joint angles using Newton-Raphson method
         Eigen::Vector3d deltaTheta = J.inverse() * error;
         theta += deltaTheta;
     }
+    std::cout << "Error: " << error.norm() << std::endl;
 
     auto normalizeRadians = [](double angle)
     {

@@ -1,0 +1,19 @@
+\hypertarget{structtesting_1_1internal_1_1ThisRefAdjuster}{}\doxysection{testing\+::internal\+::This\+Ref\+Adjuster$<$ Pattern $>$ Struct Template Reference}
+\label{structtesting_1_1internal_1_1ThisRefAdjuster}\index{testing::internal::ThisRefAdjuster$<$ Pattern $>$@{testing::internal::ThisRefAdjuster$<$ Pattern $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structtesting_1_1internal_1_1ThisRefAdjuster_a7c7ab5d3ec35491fcedf4b9e71a6eb54}\label{structtesting_1_1internal_1_1ThisRefAdjuster_a7c7ab5d3ec35491fcedf4b9e71a6eb54}} 
+{\footnotesize template$<$typename T $>$ }\\using {\bfseries AdjustT} = typename std\+::conditional$<$ std\+::is\+\_\+const$<$ typename std\+::remove\+\_\+reference$<$ Pattern $>$\+::type $>$\+::value, typename std\+::conditional$<$ std\+::is\+\_\+lvalue\+\_\+reference$<$ Pattern $>$\+::value, const T \&, const T \&\& $>$\+::type, typename std\+::conditional$<$ std\+::is\+\_\+lvalue\+\_\+reference$<$ Pattern $>$\+::value, T \&, T \&\& $>$\+::type $>$\+::type
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structtesting_1_1internal_1_1ThisRefAdjuster_ae44907f7961574589a1ec6b87597430a}\label{structtesting_1_1internal_1_1ThisRefAdjuster_ae44907f7961574589a1ec6b87597430a}} 
+{\footnotesize template$<$typename Mock\+Type $>$ }\\static AdjustT$<$ Mock\+Type $>$ {\bfseries Adjust} (const Mock\+Type \&mock)
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/omer/rr/src/\+Robotics\+Kinematics\+Solver/build/\+\_\+deps/googletest-\/src/googlemock/include/gmock/gmock-\/function-\/mocker.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,45 @@
+Forward and Inverse Kinematics Solver Library from Scratch \hypertarget{index_autotoc_md1}{}\doxysection{Three\+D\+O\+F\+Robot Kinematics Solver}\label{index_autotoc_md1}
+\hypertarget{index_autotoc_md2}{}\doxysubsection{Overview}\label{index_autotoc_md2}
+The \mbox{\hyperlink{classThreeDOFRobot}{Three\+D\+O\+F\+Robot}} library is a comprehensive C++ solution for solving the kinematics of a 3-\/D\+OF (Degree of Freedom) R\+RR (Revolute-\/\+Revolute-\/\+Revolute) type robotic arm. This library allows users to set joint angles, link lengths, and calculate the position of the end effector through both forward and inverse kinematics approaches. Additionally, it includes functionality to check if the end effector is within a given circle, making it a versatile tool for robotics applications.
+
+Leveraging the Eigen library for vector and matrix operations, the \mbox{\hyperlink{classThreeDOFRobot}{Three\+D\+O\+F\+Robot}} library ensures high performance and accuracy in kinematics calculations. It also integrates Python for runtime operations, utilizing matplotlib for plotting, thus providing a visually rich representation of the robotic arm\textquotesingle{}s movements and positions.\hypertarget{index_autotoc_md3}{}\doxysubsection{Features}\label{index_autotoc_md3}
+
+\begin{DoxyItemize}
+\item {\bfseries{Forward Kinematics}}\+: Solve using either the Denavit-\/\+Hartenberg (DH) parameters or direct linear algebra methods.
+\item {\bfseries{Inverse Kinematics}}\+: Offers both algebraic and numerical optimization (Newton-\/\+Raphson) solutions, including handling multiple possible solutions.
+\item {\bfseries{End Effector Position Check}}\+: Function to verify if the end effector is within a specified circle, based on its current position.
+\item {\bfseries{Python Integration}}\+: Runs Python scripts at runtime for plotting with matplotlib, allowing for easy visualization of the robotic arm\textquotesingle{}s configuration.
+\end{DoxyItemize}\hypertarget{index_autotoc_md4}{}\doxysubsection{Installation}\label{index_autotoc_md4}
+
+\begin{DoxyItemize}
+\item sudo apt-\/get install libeigen3-\/dev
+\item sudo apt-\/get install python3-\/matplotlib
+\item sudo apt-\/get install python3-\/pip
+\item pip3 install matplotlib
+\end{DoxyItemize}\hypertarget{index_autotoc_md5}{}\doxysubsubsection{Prerequisites}\label{index_autotoc_md5}
+
+\begin{DoxyItemize}
+\item C\+Make (version 3.\+10 or higher)
+\item Eigen3 (version 3.\+3 or higher)
+\item Python (version 3.\+8.\+10)
+\item matplotlib for Python plotting
+\end{DoxyItemize}\hypertarget{index_autotoc_md6}{}\doxysubsubsection{Building the Library}\label{index_autotoc_md6}
+\hypertarget{index_autotoc_md7}{}\doxysubsubsection{Linux Installation}\label{index_autotoc_md7}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Clone the Repository}}
+\end{DoxyEnumerate}
+\begin{DoxyItemize}
+\item git clone \href{https://github.com/luftmensc/RoboticsKinematicsSolver.git}{\texttt{ https\+://github.\+com/luftmensc/\+Robotics\+Kinematics\+Solver.\+git}} ~\newline
+
+\item cd Robotics\+Kinematics\+Solver
+\item mkdir build
+\item cd build
+\item cmake .. \&\& make
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item {\bfseries{Run the Example Executable Program With Python Integration}}
+\end{DoxyEnumerate}
+\begin{DoxyItemize}
+\item ./example 
+\end{DoxyItemize}

@@ -1,0 +1,262 @@
+\hypertarget{classThreeDOFRobot}{}\doxysection{Three\+D\+O\+F\+Robot Class Reference}
+\label{classThreeDOFRobot}\index{ThreeDOFRobot@{ThreeDOFRobot}}
+
+
+This class models a 3-\/D\+OF (Degree of Freedom) R\+RR (Revolute-\/\+Revolute-\/\+Revolute) type robotic arm.  
+
+
+
+
+{\ttfamily \#include $<$Three\+D\+O\+F\+R\+R\+R.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classThreeDOFRobot_a6f86305419c72a6228e7ac851deeb7da}{Three\+D\+O\+F\+Robot}} (Eigen\+::\+Vector3d joint\+Angles, Eigen\+::\+Vector3d link\+Lengths)
+\begin{DoxyCompactList}\small\item\em Construct a new Three D O F Robot object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classThreeDOFRobot_a51fdc2f909847351dbca0048dc13b0b3}\label{classThreeDOFRobot_a51fdc2f909847351dbca0048dc13b0b3}} 
+\mbox{\hyperlink{classThreeDOFRobot_a51fdc2f909847351dbca0048dc13b0b3}{Three\+D\+O\+F\+Robot}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classThreeDOFRobot_af940fac29a0c3daf192b75f2ae9fbab5}\label{classThreeDOFRobot_af940fac29a0c3daf192b75f2ae9fbab5}} 
+virtual \mbox{\hyperlink{classThreeDOFRobot_af940fac29a0c3daf192b75f2ae9fbab5}{$\sim$\+Three\+D\+O\+F\+Robot}} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classThreeDOFRobot_a942b2e0f4f1ac25266fd57f0d45db233}{set\+Joint\+Ang\+Radians}} (const Eigen\+::\+Vector3d \&angles)
+\begin{DoxyCompactList}\small\item\em function to set the joint angles in radians. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classThreeDOFRobot_ad73e0a58a62d804b9506728e45b21700}{set\+Link\+Lengths}} (const Eigen\+::\+Vector3d \&lengths)
+\begin{DoxyCompactList}\small\item\em function to set the link lengths in meters. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classThreeDOFRobot_ad60ab87615aa1538d5ae265980995a9a}{set\+End\+Effector\+Position}} (const Eigen\+::\+Vector3d \&position)
+\begin{DoxyCompactList}\small\item\em function to set the end effector position \end{DoxyCompactList}\item 
+Eigen\+::\+Vector3d \mbox{\hyperlink{classThreeDOFRobot_a52ee921294e419bbb100592d89118a56}{get\+Joint\+Angles}} (void) const
+\begin{DoxyCompactList}\small\item\em returns the joint angles in radians as Eigen\+::\+Vector3d. \end{DoxyCompactList}\item 
+Eigen\+::\+Vector3d \mbox{\hyperlink{classThreeDOFRobot_ae1c431a4273a368506b9c09e7c55b0b3}{get\+Link\+Lengths}} (void) const
+\begin{DoxyCompactList}\small\item\em returns the link lengths in meters as Eigen\+::\+Vector3d. \end{DoxyCompactList}\item 
+Eigen\+::\+Vector3d \mbox{\hyperlink{classThreeDOFRobot_add93bfa73ec9521ddee147c0a1bf08b9}{get\+End\+Effector\+Position}} (void) const
+\begin{DoxyCompactList}\small\item\em returns the end effector position in meters as Eigen\+::\+Vector3d. \end{DoxyCompactList}\item 
+Eigen\+::\+Vector3d \mbox{\hyperlink{classThreeDOFRobot_a17b1d5f564b0e7849de508f444638ddb}{solve\+Forward\+Kinematics\+DH}} ()
+\begin{DoxyCompactList}\small\item\em solve\+Forward\+Kinematics\+DH function is used to solve the forward kinematics using DH model parameters. Need to set the joint angles and link lengths before calling this function. \end{DoxyCompactList}\item 
+Eigen\+::\+Vector3d \mbox{\hyperlink{classThreeDOFRobot_a80759b33a545458fd86d3317c34e1348}{solve\+Forward\+Kinematics\+LS}} (void)
+\begin{DoxyCompactList}\small\item\em solve\+Forward\+Kinematics\+LS function is used to solve the forward kinematics using Direct Linear Algebra model parameters. Need to set the joint angles and link lengths before calling this function. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classThreeDOFRobot_a02f95164904fd30d2c312aba651b7b5a}{is\+End\+Effector\+In\+Circle}} (const double \&circle\+\_\+x, const double \&circle\+\_\+y, const double \&r, const double \&th1, const double \&th2, const double \&th3)
+\begin{DoxyCompactList}\small\item\em For given circle parameters and end effector position, is\+End\+Effector\+In\+Circle function checks whether the end effector is in the circle or not. \end{DoxyCompactList}\item 
+Eigen\+::\+Vector3d \mbox{\hyperlink{classThreeDOFRobot_ae84e61739823a81440f33752f0574feb}{solve\+Inverse\+Kinematics}} (const Eigen\+::\+Vector3d \&end\+Effector\+X\+YW)
+\begin{DoxyCompactList}\small\item\em solve\+Inverse\+Kinematics function is used to solve the inverse kinematics using algebraic approach. \end{DoxyCompactList}\item 
+std\+::vector$<$ Eigen\+::\+Vector3d $>$ \mbox{\hyperlink{classThreeDOFRobot_a343c72f1353c9ac06505fe812040014d}{solve\+Inverse\+Kinematics2\+Solution}} (const Eigen\+::\+Vector3d \&end\+Effector\+X\+YW)
+\begin{DoxyCompactList}\small\item\em solve\+Inverse\+Kinematics2\+Solution function is used to solve the inverse kinematics using algebraic approach. Since the robot has 2 solutions for the given end effector position, it returns the joint angles in Eigen\+::\+Vector3d. \end{DoxyCompactList}\item 
+Eigen\+::\+Vector3d \mbox{\hyperlink{classThreeDOFRobot_ab1ac1ccf42265a612d21f14bf8795f0e}{solve\+Inverse\+Kinematics\+NR}} (const Eigen\+::\+Vector3d \&desired\+Position)
+\begin{DoxyCompactList}\small\item\em solve\+Inverse\+Kinematics\+NR function is used to solve the inverse kinematics using numerical optimization (Newton-\/\+Raphson) approach. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class models a 3-\/D\+OF (Degree of Freedom) R\+RR (Revolute-\/\+Revolute-\/\+Revolute) type robotic arm. 
+
+It provides functionalities to set and get joint angles, link lengths, and the end-\/effector position. Additionally, it offers methods to solve forward and inverse kinematics in multiple ways. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classThreeDOFRobot_a6f86305419c72a6228e7ac851deeb7da}\label{classThreeDOFRobot_a6f86305419c72a6228e7ac851deeb7da}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!ThreeDOFRobot@{ThreeDOFRobot}}
+\index{ThreeDOFRobot@{ThreeDOFRobot}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{ThreeDOFRobot()}{ThreeDOFRobot()}}
+{\footnotesize\ttfamily Three\+D\+O\+F\+Robot\+::\+Three\+D\+O\+F\+Robot (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector3d}]{joint\+Angles,  }\item[{Eigen\+::\+Vector3d}]{link\+Lengths }\end{DoxyParamCaption})}
+
+
+
+Construct a new Three D O F Robot object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em joint\+Angles} & \\
+\hline
+{\em link\+Lengths} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classThreeDOFRobot_add93bfa73ec9521ddee147c0a1bf08b9}\label{classThreeDOFRobot_add93bfa73ec9521ddee147c0a1bf08b9}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!getEndEffectorPosition@{getEndEffectorPosition}}
+\index{getEndEffectorPosition@{getEndEffectorPosition}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{getEndEffectorPosition()}{getEndEffectorPosition()}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Three\+D\+O\+F\+Robot\+::get\+End\+Effector\+Position (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const}
+
+
+
+returns the end effector position in meters as Eigen\+::\+Vector3d. 
+
+\begin{DoxyReturn}{Returns}
+end effector position in meters as Eigen\+::\+Vector3d. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classThreeDOFRobot_a52ee921294e419bbb100592d89118a56}\label{classThreeDOFRobot_a52ee921294e419bbb100592d89118a56}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!getJointAngles@{getJointAngles}}
+\index{getJointAngles@{getJointAngles}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{getJointAngles()}{getJointAngles()}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Three\+D\+O\+F\+Robot\+::get\+Joint\+Angles (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const}
+
+
+
+returns the joint angles in radians as Eigen\+::\+Vector3d. 
+
+\begin{DoxyReturn}{Returns}
+joint angles in radians as Eigen\+::\+Vector3d. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classThreeDOFRobot_ae1c431a4273a368506b9c09e7c55b0b3}\label{classThreeDOFRobot_ae1c431a4273a368506b9c09e7c55b0b3}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!getLinkLengths@{getLinkLengths}}
+\index{getLinkLengths@{getLinkLengths}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{getLinkLengths()}{getLinkLengths()}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Three\+D\+O\+F\+Robot\+::get\+Link\+Lengths (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const}
+
+
+
+returns the link lengths in meters as Eigen\+::\+Vector3d. 
+
+\begin{DoxyReturn}{Returns}
+link lengths in meters as Eigen\+::\+Vector3d. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classThreeDOFRobot_a02f95164904fd30d2c312aba651b7b5a}\label{classThreeDOFRobot_a02f95164904fd30d2c312aba651b7b5a}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!isEndEffectorInCircle@{isEndEffectorInCircle}}
+\index{isEndEffectorInCircle@{isEndEffectorInCircle}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{isEndEffectorInCircle()}{isEndEffectorInCircle()}}
+{\footnotesize\ttfamily bool Three\+D\+O\+F\+Robot\+::is\+End\+Effector\+In\+Circle (\begin{DoxyParamCaption}\item[{const double \&}]{circle\+\_\+x,  }\item[{const double \&}]{circle\+\_\+y,  }\item[{const double \&}]{r,  }\item[{const double \&}]{th1,  }\item[{const double \&}]{th2,  }\item[{const double \&}]{th3 }\end{DoxyParamCaption})}
+
+
+
+For given circle parameters and end effector position, is\+End\+Effector\+In\+Circle function checks whether the end effector is in the circle or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em circle\+\_\+x,circle\+\_\+y,r,angle1,angle2,angle3} & are the circle parameters and joint angles. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool value, true if end effector is in the circle, false otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classThreeDOFRobot_ad60ab87615aa1538d5ae265980995a9a}\label{classThreeDOFRobot_ad60ab87615aa1538d5ae265980995a9a}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!setEndEffectorPosition@{setEndEffectorPosition}}
+\index{setEndEffectorPosition@{setEndEffectorPosition}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{setEndEffectorPosition()}{setEndEffectorPosition()}}
+{\footnotesize\ttfamily void Three\+D\+O\+F\+Robot\+::set\+End\+Effector\+Position (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Vector3d \&}]{position }\end{DoxyParamCaption})}
+
+
+
+function to set the end effector position 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & in meters as Eigen\+::\+Vector3d. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classThreeDOFRobot_a942b2e0f4f1ac25266fd57f0d45db233}\label{classThreeDOFRobot_a942b2e0f4f1ac25266fd57f0d45db233}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!setJointAngRadians@{setJointAngRadians}}
+\index{setJointAngRadians@{setJointAngRadians}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{setJointAngRadians()}{setJointAngRadians()}}
+{\footnotesize\ttfamily void Three\+D\+O\+F\+Robot\+::set\+Joint\+Ang\+Radians (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Vector3d \&}]{angles }\end{DoxyParamCaption})}
+
+
+
+function to set the joint angles in radians. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angles} & in radian as Eigen\+::\+Vector3d. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classThreeDOFRobot_ad73e0a58a62d804b9506728e45b21700}\label{classThreeDOFRobot_ad73e0a58a62d804b9506728e45b21700}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!setLinkLengths@{setLinkLengths}}
+\index{setLinkLengths@{setLinkLengths}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{setLinkLengths()}{setLinkLengths()}}
+{\footnotesize\ttfamily void Three\+D\+O\+F\+Robot\+::set\+Link\+Lengths (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Vector3d \&}]{lengths }\end{DoxyParamCaption})}
+
+
+
+function to set the link lengths in meters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angles} & in degrees as Eigen\+::\+Vector3d. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classThreeDOFRobot_a17b1d5f564b0e7849de508f444638ddb}\label{classThreeDOFRobot_a17b1d5f564b0e7849de508f444638ddb}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!solveForwardKinematicsDH@{solveForwardKinematicsDH}}
+\index{solveForwardKinematicsDH@{solveForwardKinematicsDH}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{solveForwardKinematicsDH()}{solveForwardKinematicsDH()}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Three\+D\+O\+F\+Robot\+::solve\+Forward\+Kinematics\+DH (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+solve\+Forward\+Kinematics\+DH function is used to solve the forward kinematics using DH model parameters. Need to set the joint angles and link lengths before calling this function. 
+
+\begin{DoxyReturn}{Returns}
+Returns the end effector position in Eigen\+::\+Vector3d. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classThreeDOFRobot_a80759b33a545458fd86d3317c34e1348}\label{classThreeDOFRobot_a80759b33a545458fd86d3317c34e1348}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!solveForwardKinematicsLS@{solveForwardKinematicsLS}}
+\index{solveForwardKinematicsLS@{solveForwardKinematicsLS}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{solveForwardKinematicsLS()}{solveForwardKinematicsLS()}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Three\+D\+O\+F\+Robot\+::solve\+Forward\+Kinematics\+LS (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+solve\+Forward\+Kinematics\+LS function is used to solve the forward kinematics using Direct Linear Algebra model parameters. Need to set the joint angles and link lengths before calling this function. 
+
+\begin{DoxyReturn}{Returns}
+Returns the end effector position in Eigen\+::\+Vector3d. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classThreeDOFRobot_ae84e61739823a81440f33752f0574feb}\label{classThreeDOFRobot_ae84e61739823a81440f33752f0574feb}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!solveInverseKinematics@{solveInverseKinematics}}
+\index{solveInverseKinematics@{solveInverseKinematics}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{solveInverseKinematics()}{solveInverseKinematics()}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Three\+D\+O\+F\+Robot\+::solve\+Inverse\+Kinematics (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Vector3d \&}]{end\+Effector\+X\+YW }\end{DoxyParamCaption})}
+
+
+
+solve\+Inverse\+Kinematics function is used to solve the inverse kinematics using algebraic approach. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em end\+Effector\+X\+YW} & is the desired end effector position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the joint angles in Eigen\+::\+Vector3d. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classThreeDOFRobot_a343c72f1353c9ac06505fe812040014d}\label{classThreeDOFRobot_a343c72f1353c9ac06505fe812040014d}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!solveInverseKinematics2Solution@{solveInverseKinematics2Solution}}
+\index{solveInverseKinematics2Solution@{solveInverseKinematics2Solution}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{solveInverseKinematics2Solution()}{solveInverseKinematics2Solution()}}
+{\footnotesize\ttfamily std\+::vector$<$ Eigen\+::\+Vector3d $>$ Three\+D\+O\+F\+Robot\+::solve\+Inverse\+Kinematics2\+Solution (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Vector3d \&}]{end\+Effector\+X\+YW }\end{DoxyParamCaption})}
+
+
+
+solve\+Inverse\+Kinematics2\+Solution function is used to solve the inverse kinematics using algebraic approach. Since the robot has 2 solutions for the given end effector position, it returns the joint angles in Eigen\+::\+Vector3d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em end\+Effector\+X\+YW} & is the desired end effector position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the joint angles in Eigen\+::\+Vector3d. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classThreeDOFRobot_ab1ac1ccf42265a612d21f14bf8795f0e}\label{classThreeDOFRobot_ab1ac1ccf42265a612d21f14bf8795f0e}} 
+\index{ThreeDOFRobot@{ThreeDOFRobot}!solveInverseKinematicsNR@{solveInverseKinematicsNR}}
+\index{solveInverseKinematicsNR@{solveInverseKinematicsNR}!ThreeDOFRobot@{ThreeDOFRobot}}
+\doxysubsubsection{\texorpdfstring{solveInverseKinematicsNR()}{solveInverseKinematicsNR()}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Three\+D\+O\+F\+Robot\+::solve\+Inverse\+Kinematics\+NR (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Vector3d \&}]{desired\+Position }\end{DoxyParamCaption})}
+
+
+
+solve\+Inverse\+Kinematics\+NR function is used to solve the inverse kinematics using numerical optimization (Newton-\/\+Raphson) approach. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em desired\+Position} & is the desired end effector position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the joint angles in Eigen\+::\+Vector3d. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/omer/rr/src/\+Robotics\+Kinematics\+Solver/include/\+Kinematics\+Lib/\mbox{\hyperlink{ThreeDOFRRR_8hpp}{Three\+D\+O\+F\+R\+R\+R.\+hpp}}\item 
+/home/omer/rr/src/\+Robotics\+Kinematics\+Solver/src/Three\+D\+O\+F\+R\+R\+R.\+cpp\end{DoxyCompactItemize}

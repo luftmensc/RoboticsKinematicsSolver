@@ -10,13 +10,14 @@
 int main()
 {
     int action(0);
+
     while(action!=7){
         std::unique_ptr<ThreeDOFRobot> robot = std::make_unique<ThreeDOFRobot>();
         robot->setLinkLengths(Eigen::Vector3d(1.0, 1.0, 1.0)); // Set link lengths
         std::cout<<"You have 3 DoF revolute joint planar robot with 3 links of length 1.0m \n\n";
 
         std::cout << "Please specify the action you want to perform:\n\n1- Forward Kinematics with DH model\n2- Forward Kinematics with Algebraic Function\n"
-        << "3- Inverse Kinematics Algebraic solution (Returns bothelbow up-down solutions)\n4- Inverse Kinematics Algebraic solution (Returns only one solution)\n"
+        << "3- Inverse Kinematics Algebraic solution (Returns both elbow up-down solutions)\n4- Inverse Kinematics Algebraic solution (Returns only one solution)\n"
         << "5- Inverse Kinematics using numetical method (Newton-Raphson)\n6- Is in The Circle Test\n7- Quit\n\n";
         
         std::vector<double> CircleParams;
@@ -27,6 +28,7 @@ int main()
 
         if(!(action > 0 && action < 8)){
             std::cout<< "Invalid action, please input a number between 1 and 5"<<std::endl;
+            std::cout<< "Error code: 1"<<std::endl;
             return 1;
         }
         if(action==1 || action==2){
@@ -42,6 +44,7 @@ int main()
             }
             if(jointAngles.size()!=3){
                 std::cout<< "Invalid input, please input 3 joint angles"<<std::endl;
+                std::cout<< "Error code: 2"<<std::endl;
                 return 2;
             }
             robot->setJointAngRadians(Eigen::Vector3d(jointAngles[0], jointAngles[1], jointAngles[2]) * M_PI / 180.0); // In radians
@@ -51,21 +54,22 @@ int main()
             std::cout<< "Please input the end effector position (x, y, w) to calculate IK. Give the orientation angle in degrees!"<<std::endl;
             std::string input;
             std::getline(std::cin, input);
-
+            
             std::istringstream iss(input);
-
+            std::vector<double> endEffectorPosition;
             double value;
             while(iss >> value){
-                CircleParams.push_back(value);
+                endEffectorPosition.push_back(value);
             }
-            if(CircleParams.size()!=3){
+            if(endEffectorPosition.size()!=3){
                 std::cout<< "Invalid input, please input 3 values for end effector position"<<std::endl;
+                std::cout<< "Error code: 3"<<std::endl;
                 return 3;
             }
-            robot->setEndEffectorPosition(Eigen::Vector3d(CircleParams[0], CircleParams[1], CircleParams[2]*M_PI/180.0));
+            robot->setEndEffectorPosition(Eigen::Vector3d(endEffectorPosition[0], endEffectorPosition[1], endEffectorPosition[2] * M_PI / 180.0)); // In radians
         }
         else if(action==6){
-            std::cout<< "Please input the circle parameters (x, y, r) and end effector parameters (x, y, w) to check if end effector is in the circle. orientation angle should be in radians!"<<std::endl;
+            std::cout<< "Please input the circle parameters (x, y, r) and robot joint angles (3 angles separated by space) to check if the end effector is in the circle"<<std::endl;
             std::string input;
             std::getline(std::cin, input);
 
@@ -77,17 +81,18 @@ int main()
             }
             if(CircleParams.size()!=6){
                 std::cout<< "Invalid input, please input 6 values for circle and end effector position"<<std::endl;
+                std::cout<< "Error code: 4"<<std::endl;
                 return 4;
             }
-            robot->setEndEffectorPosition(Eigen::Vector3d(CircleParams[3], CircleParams[4], CircleParams[5]));
+            robot->setJointAngRadians(Eigen::Vector3d(CircleParams[3], CircleParams[4], CircleParams[5]) * M_PI / 180.0); // In radians
         }
-
 
         else if(action==7){
             return 0;
         }
         else{
             std::cout<< "Invalid action, please input a number between 1 and 7"<<std::endl;
+            std::cout<< "Error code: 5"<<std::endl;
             return 5;
         }
         std::cout << "\n\n";
@@ -116,9 +121,15 @@ int main()
             std::cout << "------------------------------------------------------------------------------------------------"<<std::endl;
             std::cout << "End effector position (LS): " << endEffectorPosition.transpose() << " - Input joint angles (in radians): " << robot->getJointAngles().transpose() << std::endl;
             std::cout << "------------------------------------------------------------------------------------------------"<<std::endl;
-            std::string command = "python3 visualize_robot.py " + std::to_string(endEffectorPosition[0]) + " " + std::to_string(endEffectorPosition[1]) + " " + std::to_string(endEffectorPosition[2]);
-            command += " " + std::to_string(robot->getJointAngles()[0]*180.0/M_PI) + " " + std::to_string(robot->getJointAngles()[1]*180.0/M_PI) + " " + std::to_string(robot->getJointAngles()[2]*180.0/M_PI);
+
+            std::string command = "python3 visualize_robot.py " +
+                                std::to_string(endEffectorPosition[0]) + " " + // X position of the end effector
+                                std::to_string(endEffectorPosition[1]) + " " + // Y position of the end effector
+                                std::to_string(robot->getJointAngles()[0]*180.0/M_PI) + " " + // Angle 1 in degrees
+                                std::to_string(robot->getJointAngles()[1]*180.0/M_PI) + " " + // Angle 2 in degrees
+                                std::to_string(robot->getJointAngles()[2]*180.0/M_PI);        // Angle 3 in degrees
             std::system(command.c_str());
+
             break;
         }
         case 3: //IK algebraic 2 solutions
@@ -151,6 +162,16 @@ int main()
             std::cout << "While end effector is at: "<<robot->getEndEffectorPosition().transpose()<<std::endl;
             std::cout << "Inverse kinematics: " << jointAngles.transpose() << " in degrees: " << jointAngles.transpose() * 180.0 / M_PI << std::endl;
             std::cout << "------------------------------------------------------------------------------------------------"<<std::endl;
+
+            std::string command = "python3 visualize_robot.py " + 
+                    std::to_string(robot->getEndEffectorPosition()[0]) + " " +
+                    std::to_string(robot->getEndEffectorPosition()[1]) + " " +
+                    std::to_string(jointAngles[0]*180.0/M_PI) + " " +
+                    std::to_string(jointAngles[1]*180.0/M_PI) + " " +
+                    std::to_string(jointAngles[2]*180.0/M_PI); 
+
+            std::cout << "Given command to python: " << command << std::endl; 
+            std::system(command.c_str());
             break;
         }
         case 5: //IK NR
@@ -173,7 +194,8 @@ int main()
                 }
                 if(initialGuess.size()!=3){
                     std::cout<< "Invalid input, please input 3 joint angles"<<std::endl;
-                    return 2;
+                    std::cout<< "Error code: 6"<<std::endl;
+                    return 6;
                 }
                 robot->setJointAngRadians(Eigen::Vector3d(initialGuess[0], initialGuess[1], initialGuess[2]) * M_PI / 180.0); // In radians
             }
@@ -182,12 +204,21 @@ int main()
             }
             else{
                 std::cout<< "Invalid input, please input y or n"<<std::endl;
-                return 6;
+                std::cout<< "Error code: 7"<<std::endl;
+                return 7;
             }
             Eigen::Vector3d jointAnglesNR = robot->solveInverseKinematicsNR(robot->getEndEffectorPosition());
             std::cout << "------------------------------------------------------------------------------------------------"<<std::endl;
             std::cout << "Inverse kinematics using Newton-Raphson: " << jointAnglesNR.transpose() << " in degrees: " << jointAnglesNR.transpose() * 180.0 / M_PI << std::endl;
             std::cout << "------------------------------------------------------------------------------------------------"<<std::endl;
+            std::string command = "python3 visualize_robot.py " + 
+                    std::to_string(robot->getEndEffectorPosition()[0]) + " " +
+                    std::to_string(robot->getEndEffectorPosition()[1]) + " " +
+                    std::to_string(jointAnglesNR[0]*180.0/M_PI) + " " +
+                    std::to_string(jointAnglesNR[1]*180.0/M_PI) + " " +
+                    std::to_string(jointAnglesNR[2]*180.0/M_PI);
+            std::system(command.c_str());
+
             break;
         }
         case 6: //Is in the circle
@@ -201,6 +232,18 @@ int main()
                 std::cout<< "End effector is not in the circle"<<std::endl;
             }
             std::cout << "------------------------------------------------------------------------------------------------"<<std::endl;
+            std::string command = "python3 visualize_robot.py " + 
+                    std::to_string(CircleParams[0]) + " " +
+                    std::to_string(CircleParams[1]) + " " +
+                    std::to_string(CircleParams[2]) + " " +
+                    std::to_string(robot->getEndEffectorPosition()[0]) + " " +
+                    std::to_string(robot->getEndEffectorPosition()[1]) + " " +
+                    std::to_string(robot->getEndEffectorPosition()[2]) + " " +
+                    std::to_string(robot->getJointAngles()[0]*180.0/M_PI) + " " +
+                    std::to_string(robot->getJointAngles()[1]*180.0/M_PI) + " " +
+                    std::to_string(robot->getJointAngles()[2]*180.0/M_PI);
+            std::system(command.c_str());
+                    
             break;
         }
         default:

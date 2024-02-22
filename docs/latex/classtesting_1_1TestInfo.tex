@@ -1,0 +1,62 @@
+\hypertarget{classtesting_1_1TestInfo}{}\doxysection{testing\+::Test\+Info Class Reference}
+\label{classtesting_1_1TestInfo}\index{testing::TestInfo@{testing::TestInfo}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_a82a84ffd0e4d18eb5a3f97a2077e12cc}\label{classtesting_1_1TestInfo_a82a84ffd0e4d18eb5a3f97a2077e12cc}} 
+const char $\ast$ {\bfseries test\+\_\+suite\+\_\+name} () const
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_a036a20710c8c2252889544daba9a8ff9}\label{classtesting_1_1TestInfo_a036a20710c8c2252889544daba9a8ff9}} 
+const char $\ast$ {\bfseries test\+\_\+case\+\_\+name} () const
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_ac2581b45eccc9a3b94cb41c4807d0e34}\label{classtesting_1_1TestInfo_ac2581b45eccc9a3b94cb41c4807d0e34}} 
+const char $\ast$ {\bfseries name} () const
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_a7759bc57f4350ad406cbbb0b3bcea320}\label{classtesting_1_1TestInfo_a7759bc57f4350ad406cbbb0b3bcea320}} 
+const char $\ast$ {\bfseries type\+\_\+param} () const
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_abdf2c6cfcf4819e725816c64e1c1fc24}\label{classtesting_1_1TestInfo_abdf2c6cfcf4819e725816c64e1c1fc24}} 
+const char $\ast$ {\bfseries value\+\_\+param} () const
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_a9b74d79cf618ce5bb0d0b1da75ee8b35}\label{classtesting_1_1TestInfo_a9b74d79cf618ce5bb0d0b1da75ee8b35}} 
+const char $\ast$ {\bfseries file} () const
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_af5931cfc594b5d660c56b3c61c41ea13}\label{classtesting_1_1TestInfo_af5931cfc594b5d660c56b3c61c41ea13}} 
+int {\bfseries line} () const
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_a8621f2cf7623fd1609db8e324f0c2fec}\label{classtesting_1_1TestInfo_a8621f2cf7623fd1609db8e324f0c2fec}} 
+bool {\bfseries is\+\_\+in\+\_\+another\+\_\+shard} () const
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_a866e33b5bc5ab2a6e5375fc7d3af0f96}\label{classtesting_1_1TestInfo_a866e33b5bc5ab2a6e5375fc7d3af0f96}} 
+bool {\bfseries should\+\_\+run} () const
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_a63e7042028b0b846f4b5a1e5bcffc079}\label{classtesting_1_1TestInfo_a63e7042028b0b846f4b5a1e5bcffc079}} 
+bool {\bfseries is\+\_\+reportable} () const
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_aee8cb884c95cd446129aba936b4159e0}\label{classtesting_1_1TestInfo_aee8cb884c95cd446129aba936b4159e0}} 
+const \mbox{\hyperlink{classtesting_1_1TestResult}{Test\+Result}} $\ast$ {\bfseries result} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_a5b78b1c2e1fa07ffed92da365593eaa4}\label{classtesting_1_1TestInfo_a5b78b1c2e1fa07ffed92da365593eaa4}} 
+class {\bfseries Test}
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_ab9aaba231fd11196425e75caf709bfc6}\label{classtesting_1_1TestInfo_ab9aaba231fd11196425e75caf709bfc6}} 
+class {\bfseries Test\+Suite}
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_acc0a5e7573fd6ae7ad1878613bb86853}\label{classtesting_1_1TestInfo_acc0a5e7573fd6ae7ad1878613bb86853}} 
+class {\bfseries internal\+::\+Unit\+Test\+Impl}
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_adc037d188dab349a94868991955c9cd4}\label{classtesting_1_1TestInfo_adc037d188dab349a94868991955c9cd4}} 
+class {\bfseries internal\+::\+Streaming\+Listener\+Test}
+\item 
+\mbox{\Hypertarget{classtesting_1_1TestInfo_a63d61c7ffd0423b1d3615f0ff5f2040e}\label{classtesting_1_1TestInfo_a63d61c7ffd0423b1d3615f0ff5f2040e}} 
+\mbox{\hyperlink{classtesting_1_1TestInfo}{Test\+Info}} $\ast$ {\bfseries internal\+::\+Make\+And\+Register\+Test\+Info} (const char $\ast$test\+\_\+suite\+\_\+name, const char $\ast$name, const char $\ast$type\+\_\+param, const char $\ast$value\+\_\+param, \mbox{\hyperlink{structtesting_1_1internal_1_1CodeLocation}{internal\+::\+Code\+Location}} code\+\_\+location, internal\+::\+Type\+Id fixture\+\_\+class\+\_\+id, internal\+::\+Set\+Up\+Test\+Suite\+Func set\+\_\+up\+\_\+tc, internal\+::\+Tear\+Down\+Test\+Suite\+Func tear\+\_\+down\+\_\+tc, \mbox{\hyperlink{classtesting_1_1internal_1_1TestFactoryBase}{internal\+::\+Test\+Factory\+Base}} $\ast$factory)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/omer/rr/src/\+Robotics\+Kinematics\+Solver/build/\+\_\+deps/googletest-\/src/googletest/include/gtest/gtest.\+h\item 
+/home/omer/rr/src/\+Robotics\+Kinematics\+Solver/build/\+\_\+deps/googletest-\/src/googletest/src/gtest.\+cc\end{DoxyCompactItemize}

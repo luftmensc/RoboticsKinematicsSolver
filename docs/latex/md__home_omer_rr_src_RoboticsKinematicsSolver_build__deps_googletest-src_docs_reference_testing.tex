@@ -1,0 +1,807 @@
+This page lists the facilities provided by Google\+Test for writing test programs. To use them, include the header {\ttfamily \mbox{\hyperlink{gtest_8h_source}{gtest/gtest.\+h}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md273}{}\doxysection{Macros}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md273}
+Google\+Test defines the following macros for writing tests.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TEST}{}\doxysubsection{T\+E\+ST}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TEST}
+
+\begin{DoxyPre}
+TEST({\itshape TestSuiteName}, {\itshape TestName}) \{
+  ... {\itshape statements} ...
+\}
+\end{DoxyPre}
+
+
+Defines an individual test named $\ast${\ttfamily Test\+Name}$\ast$ in the test suite $\ast${\ttfamily Test\+Suite\+Name}$\ast$, consisting of the given statements.
+
+Both arguments $\ast${\ttfamily Test\+Suite\+Name}$\ast$ and $\ast${\ttfamily Test\+Name}$\ast$ must be valid C++ identifiers and must not contain underscores ({\ttfamily \+\_\+}). Tests in different test suites can have the same individual name.
+
+The statements within the test body can be any code under test. Assertions used within the test body determine the outcome of the test.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TEST_F}{}\doxysubsection{T\+E\+S\+T\+\_\+F}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TEST_F}
+
+\begin{DoxyPre}
+TEST\_F({\itshape TestFixtureName}, {\itshape TestName}) \{
+  ... {\itshape statements} ...
+\}
+\end{DoxyPre}
+
+
+Defines an individual test named $\ast${\ttfamily Test\+Name}$\ast$ that uses the test fixture class $\ast${\ttfamily Test\+Fixture\+Name}$\ast$. The test suite name is $\ast${\ttfamily Test\+Fixture\+Name}$\ast$.
+
+Both arguments $\ast${\ttfamily Test\+Fixture\+Name}$\ast$ and $\ast${\ttfamily Test\+Name}$\ast$ must be valid C++ identifiers and must not contain underscores ({\ttfamily \+\_\+}). $\ast${\ttfamily Test\+Fixture\+Name}$\ast$ must be the name of a test fixture class—see \href{../primer.md\#same-data-multiple-tests}{\texttt{ Test Fixtures}}.
+
+The statements within the test body can be any code under test. Assertions used within the test body determine the outcome of the test.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TEST_P}{}\doxysubsection{T\+E\+S\+T\+\_\+P}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TEST_P}
+
+\begin{DoxyPre}
+TEST\_P({\itshape TestFixtureName}, {\itshape TestName}) \{
+  ... {\itshape statements} ...
+\}
+\end{DoxyPre}
+
+
+Defines an individual value-\/parameterized test named $\ast${\ttfamily Test\+Name}$\ast$ that uses the test fixture class $\ast${\ttfamily Test\+Fixture\+Name}$\ast$. The test suite name is $\ast${\ttfamily Test\+Fixture\+Name}$\ast$.
+
+Both arguments $\ast${\ttfamily Test\+Fixture\+Name}$\ast$ and $\ast${\ttfamily Test\+Name}$\ast$ must be valid C++ identifiers and must not contain underscores ({\ttfamily \+\_\+}). $\ast${\ttfamily Test\+Fixture\+Name}$\ast$ must be the name of a value-\/parameterized test fixture class—see \href{../advanced.md\#value-parameterized-tests}{\texttt{ Value-\/\+Parameterized Tests}}.
+
+The statements within the test body can be any code under test. Within the test body, the test parameter can be accessed with the {\ttfamily Get\+Param()} function (see \href{\#WithParamInterface}{\texttt{ {\ttfamily With\+Param\+Interface}}}). For example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{TEST\_P(MyTestSuite, DoesSomething) \{}
+\DoxyCodeLine{  ...}
+\DoxyCodeLine{  EXPECT\_TRUE(DoSomething(GetParam()));}
+\DoxyCodeLine{  ...}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+
+
+Assertions used within the test body determine the outcome of the test.
+
+See also \href{\#INSTANTIATE_TEST_SUITE_P}{\texttt{ {\ttfamily I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_INSTANTIATE_TEST_SUITE_P}{}\doxysubsection{I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_INSTANTIATE_TEST_SUITE_P}
+{\ttfamily I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P(}$\ast${\ttfamily Instantiation\+Name}$\ast${\ttfamily ,}$\ast${\ttfamily Test\+Suite\+Name}$\ast${\ttfamily ,}$\ast${\ttfamily param\+\_\+generator}$\ast${\ttfamily )} \textbackslash{} {\ttfamily I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P(}$\ast${\ttfamily Instantiation\+Name}$\ast${\ttfamily ,}$\ast${\ttfamily Test\+Suite\+Name}$\ast${\ttfamily ,}$\ast${\ttfamily param\+\_\+generator}$\ast${\ttfamily ,}$\ast${\ttfamily name\+\_\+generator}$\ast${\ttfamily )}
+
+Instantiates the value-\/parameterized test suite $\ast${\ttfamily Test\+Suite\+Name}$\ast$ (defined with \href{\#TEST_P}{\texttt{ {\ttfamily T\+E\+S\+T\+\_\+P}}}).
+
+The argument $\ast${\ttfamily Instantiation\+Name}$\ast$ is a unique name for the instantiation of the test suite, to distinguish between multiple instantiations. In test output, the instantiation name is added as a prefix to the test suite name $\ast${\ttfamily Test\+Suite\+Name}$\ast$.
+
+The argument $\ast${\ttfamily param\+\_\+generator}$\ast$ is one of the following Google\+Test-\/provided functions that generate the test parameters, all defined in the {\ttfamily \+::testing} namespace\+:
+
+
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter Generator }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Behavior  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter Generator }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Behavior  }\\\cline{1-2}
+\endhead
+{\ttfamily Range(begin, end \mbox{[}, step\mbox{]})} &Yields values {\ttfamily \{begin, begin+step, begin+step+step, ...\}}. The values do not include {\ttfamily end}. {\ttfamily step} defaults to 1.  \\\cline{1-2}
+{\ttfamily Values(v1, v2, ..., v\+N)} &Yields values {\ttfamily \{v1, v2, ..., vN\}}.  \\\cline{1-2}
+{\ttfamily Values\+In(container)} or {\ttfamily Values\+In(begin,end)} &Yields values from a C-\/style array, an S\+T\+L-\/style container, or an iterator range {\ttfamily \mbox{[}begin, end)}.  \\\cline{1-2}
+{\ttfamily \mbox{\hyperlink{structBool}{Bool()}}} &Yields sequence {\ttfamily \{false, true\}}.  \\\cline{1-2}
+{\ttfamily Combine(g1, g2, ..., g\+N)} &Yields as {\ttfamily std\+::tuple} {\itshape n}-\/tuples all combinations (Cartesian product) of the values generated by the given {\itshape n} generators {\ttfamily g1}, {\ttfamily g2}, ..., {\ttfamily gN}.  \\\cline{1-2}
+\end{longtabu}
+
+
+The optional last argument $\ast${\ttfamily name\+\_\+generator}$\ast$ is a function or functor that generates custom test name suffixes based on the test parameters. The function must accept an argument of type \href{\#TestParamInfo}{\texttt{ {\ttfamily Test\+Param\+Info$<$class Param\+Type$>$}}} and return a {\ttfamily std\+::string}. The test name suffix can only contain alphanumeric characters and underscores. Google\+Test provides \href{\#PrintToStringParamName}{\texttt{ {\ttfamily Print\+To\+String\+Param\+Name}}}, or a custom function can be used for more control\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{INSTANTIATE\_TEST\_SUITE\_P(}
+\DoxyCodeLine{    MyInstantiation, MyTestSuite,}
+\DoxyCodeLine{    ::testing::Values(...),}
+\DoxyCodeLine{    [](const ::testing::TestParamInfo<MyTestSuite::ParamType>\& info) \{}
+\DoxyCodeLine{      \textcolor{comment}{// Can use info.param here to generate the test suffix}}
+\DoxyCodeLine{      std::string name = ...}
+\DoxyCodeLine{      \textcolor{keywordflow}{return} name;}
+\DoxyCodeLine{    \});}
+\end{DoxyCode}
+
+
+For more information, see \href{../advanced.md\#value-parameterized-tests}{\texttt{ Value-\/\+Parameterized Tests}}.
+
+See also \href{\#GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST}{\texttt{ {\ttfamily G\+T\+E\+S\+T\+\_\+\+A\+L\+L\+O\+W\+\_\+\+U\+N\+I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R\+I\+Z\+E\+D\+\_\+\+T\+E\+ST}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TYPED_TEST_SUITE}{}\doxysubsection{T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+TE}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TYPED_TEST_SUITE}
+{\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+TE(}$\ast${\ttfamily Test\+Fixture\+Name}$\ast${\ttfamily ,}$\ast${\ttfamily Types}$\ast${\ttfamily )}
+
+Defines a typed test suite based on the test fixture $\ast${\ttfamily Test\+Fixture\+Name}$\ast$. The test suite name is $\ast${\ttfamily Test\+Fixture\+Name}$\ast$.
+
+The argument $\ast${\ttfamily Test\+Fixture\+Name}$\ast$ is a fixture class template, parameterized by a type, for example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\textcolor{keyword}{class }MyFixture : \textcolor{keyword}{public} \mbox{\hyperlink{classtesting_1_1Test}{::testing::Test}} \{}
+\DoxyCodeLine{ \textcolor{keyword}{public}:}
+\DoxyCodeLine{  ...}
+\DoxyCodeLine{  \textcolor{keyword}{using} List = std::list<T>;}
+\DoxyCodeLine{  \textcolor{keyword}{static} T shared\_;}
+\DoxyCodeLine{  T value\_;}
+\DoxyCodeLine{\};}
+\end{DoxyCode}
+
+
+The argument $\ast${\ttfamily Types}$\ast$ is a \href{\#Types}{\texttt{ {\ttfamily Types}}} object representing the list of types to run the tests on, for example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{using} \mbox{\hyperlink{structtesting_1_1internal_1_1ProxyTypeList}{MyTypes}} = \mbox{\hyperlink{structtesting_1_1internal_1_1ProxyTypeList}{::testing::Types<char, int, unsigned int>}};}
+\DoxyCodeLine{TYPED\_TEST\_SUITE(MyFixture, \mbox{\hyperlink{structtesting_1_1internal_1_1ProxyTypeList}{MyTypes}});}
+\end{DoxyCode}
+
+
+The type alias ({\ttfamily using} or {\ttfamily typedef}) is necessary for the {\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+TE} macro to parse correctly.
+
+See also \href{\#TYPED_TEST}{\texttt{ {\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+ST}}} and \href{../advanced.md\#typed-tests}{\texttt{ Typed Tests}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TYPED_TEST}{}\doxysubsection{T\+Y\+P\+E\+D\+\_\+\+T\+E\+ST}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TYPED_TEST}
+
+\begin{DoxyPre}
+TYPED\_TEST({\itshape TestSuiteName}, {\itshape TestName}) \{
+  ... {\itshape statements} ...
+\}
+\end{DoxyPre}
+
+
+Defines an individual typed test named $\ast${\ttfamily Test\+Name}$\ast$ in the typed test suite $\ast${\ttfamily Test\+Suite\+Name}$\ast$. The test suite must be defined with \href{\#TYPED_TEST_SUITE}{\texttt{ {\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+TE}}}.
+
+Within the test body, the special name {\ttfamily Type\+Param} refers to the type parameter, and {\ttfamily Test\+Fixture} refers to the fixture class. See the following example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{TYPED\_TEST(MyFixture, Example) \{}
+\DoxyCodeLine{  \textcolor{comment}{// Inside a test, refer to the special name TypeParam to get the type}}
+\DoxyCodeLine{  \textcolor{comment}{// parameter.  Since we are inside a derived class template, C++ requires}}
+\DoxyCodeLine{  \textcolor{comment}{// us to visit the members of MyFixture via 'this'.}}
+\DoxyCodeLine{  TypeParam n = this-\/>value\_;}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \textcolor{comment}{// To visit static members of the fixture, add the 'TestFixture::'}}
+\DoxyCodeLine{  \textcolor{comment}{// prefix.}}
+\DoxyCodeLine{  n += TestFixture::shared\_;}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \textcolor{comment}{// To refer to typedefs in the fixture, add the 'typename TestFixture::'}}
+\DoxyCodeLine{  \textcolor{comment}{// prefix. The 'typename' is required to satisfy the compiler.}}
+\DoxyCodeLine{  \textcolor{keyword}{typename} TestFixture::List values;}
+\DoxyCodeLine{}
+\DoxyCodeLine{  values.push\_back(n);}
+\DoxyCodeLine{  ...}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+
+
+For more information, see \href{../advanced.md\#typed-tests}{\texttt{ Typed Tests}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TYPED_TEST_SUITE_P}{}\doxysubsection{T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TYPED_TEST_SUITE_P}
+{\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P(}$\ast${\ttfamily Test\+Fixture\+Name}$\ast${\ttfamily )}
+
+Defines a type-\/parameterized test suite based on the test fixture $\ast${\ttfamily Test\+Fixture\+Name}$\ast$. The test suite name is $\ast${\ttfamily Test\+Fixture\+Name}$\ast$.
+
+The argument $\ast${\ttfamily Test\+Fixture\+Name}$\ast$ is a fixture class template, parameterized by a type. See \href{\#TYPED_TEST_SUITE}{\texttt{ {\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+TE}}} for an example.
+
+See also \href{\#TYPED_TEST_P}{\texttt{ {\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+P}}} and \href{../advanced.md\#type-parameterized-tests}{\texttt{ Type-\/\+Parameterized Tests}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TYPED_TEST_P}{}\doxysubsection{T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+P}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TYPED_TEST_P}
+
+\begin{DoxyPre}
+TYPED\_TEST\_P({\itshape TestSuiteName}, {\itshape TestName}) \{
+  ... {\itshape statements} ...
+\}
+\end{DoxyPre}
+
+
+Defines an individual type-\/parameterized test named $\ast${\ttfamily Test\+Name}$\ast$ in the type-\/parameterized test suite $\ast${\ttfamily Test\+Suite\+Name}$\ast$. The test suite must be defined with \href{\#TYPED_TEST_SUITE_P}{\texttt{ {\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}}}.
+
+Within the test body, the special name {\ttfamily Type\+Param} refers to the type parameter, and {\ttfamily Test\+Fixture} refers to the fixture class. See \href{\#TYPED_TEST}{\texttt{ {\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+ST}}} for an example.
+
+See also \href{\#REGISTER_TYPED_TEST_SUITE_P}{\texttt{ {\ttfamily R\+E\+G\+I\+S\+T\+E\+R\+\_\+\+T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}}} and \href{../advanced.md\#type-parameterized-tests}{\texttt{ Type-\/\+Parameterized Tests}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_REGISTER_TYPED_TEST_SUITE_P}{}\doxysubsection{R\+E\+G\+I\+S\+T\+E\+R\+\_\+\+T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_REGISTER_TYPED_TEST_SUITE_P}
+{\ttfamily R\+E\+G\+I\+S\+T\+E\+R\+\_\+\+T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P(}$\ast${\ttfamily Test\+Suite\+Name}$\ast${\ttfamily ,}$\ast${\ttfamily Test\+Names...}$\ast${\ttfamily )}
+
+Registers the type-\/parameterized tests $\ast${\ttfamily Test\+Names...}$\ast$ of the test suite $\ast${\ttfamily Test\+Suite\+Name}$\ast$. The test suite and tests must be defined with \href{\#TYPED_TEST_SUITE_P}{\texttt{ {\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}}} and \href{\#TYPED_TEST_P}{\texttt{ {\ttfamily T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+P}}}.
+
+For example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// Define the test suite and tests.}}
+\DoxyCodeLine{TYPED\_TEST\_SUITE\_P(MyFixture);}
+\DoxyCodeLine{TYPED\_TEST\_P(MyFixture, HasPropertyA) \{ ... \}}
+\DoxyCodeLine{TYPED\_TEST\_P(MyFixture, HasPropertyB) \{ ... \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{// Register the tests in the test suite.}}
+\DoxyCodeLine{REGISTER\_TYPED\_TEST\_SUITE\_P(MyFixture, HasPropertyA, HasPropertyB);}
+\end{DoxyCode}
+
+
+See also \href{\#INSTANTIATE_TYPED_TEST_SUITE_P}{\texttt{ {\ttfamily I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+\_\+\+T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}}} and \href{../advanced.md\#type-parameterized-tests}{\texttt{ Type-\/\+Parameterized Tests}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_INSTANTIATE_TYPED_TEST_SUITE_P}{}\doxysubsection{I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+\_\+\+T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_INSTANTIATE_TYPED_TEST_SUITE_P}
+{\ttfamily I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+\_\+\+T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P(}$\ast${\ttfamily Instantiation\+Name}$\ast${\ttfamily ,}$\ast${\ttfamily Test\+Suite\+Name}$\ast${\ttfamily ,}$\ast${\ttfamily Types}$\ast${\ttfamily )}
+
+Instantiates the type-\/parameterized test suite $\ast${\ttfamily Test\+Suite\+Name}$\ast$. The test suite must be registered with \href{\#REGISTER_TYPED_TEST_SUITE_P}{\texttt{ {\ttfamily R\+E\+G\+I\+S\+T\+E\+R\+\_\+\+T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}}}.
+
+The argument $\ast${\ttfamily Instantiation\+Name}$\ast$ is a unique name for the instantiation of the test suite, to distinguish between multiple instantiations. In test output, the instantiation name is added as a prefix to the test suite name $\ast${\ttfamily Test\+Suite\+Name}$\ast$.
+
+The argument $\ast${\ttfamily Types}$\ast$ is a \href{\#Types}{\texttt{ {\ttfamily Types}}} object representing the list of types to run the tests on, for example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{using} \mbox{\hyperlink{structtesting_1_1internal_1_1ProxyTypeList}{MyTypes}} = \mbox{\hyperlink{structtesting_1_1internal_1_1ProxyTypeList}{::testing::Types<char, int, unsigned int>}};}
+\DoxyCodeLine{INSTANTIATE\_TYPED\_TEST\_SUITE\_P(MyInstantiation, MyFixture, \mbox{\hyperlink{structtesting_1_1internal_1_1ProxyTypeList}{MyTypes}});}
+\end{DoxyCode}
+
+
+The type alias ({\ttfamily using} or {\ttfamily typedef}) is necessary for the {\ttfamily I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+\_\+\+T\+Y\+P\+E\+D\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P} macro to parse correctly.
+
+For more information, see \href{../advanced.md\#type-parameterized-tests}{\texttt{ Type-\/\+Parameterized Tests}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_FRIEND_TEST}{}\doxysubsection{F\+R\+I\+E\+N\+D\+\_\+\+T\+E\+ST}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_FRIEND_TEST}
+{\ttfamily F\+R\+I\+E\+N\+D\+\_\+\+T\+E\+ST(}$\ast${\ttfamily Test\+Suite\+Name}$\ast${\ttfamily ,}$\ast${\ttfamily Test\+Name}$\ast${\ttfamily )}
+
+Within a class body, declares an individual test as a friend of the class, enabling the test to access private class members.
+
+If the class is defined in a namespace, then in order to be friends of the class, test fixtures and tests must be defined in the exact same namespace, without inline or anonymous namespaces.
+
+For example, if the class definition looks like the following\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{namespace }my\_namespace \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{class }MyClass \{}
+\DoxyCodeLine{  \textcolor{keyword}{friend} \textcolor{keyword}{class }MyClassTest;}
+\DoxyCodeLine{  FRIEND\_TEST(MyClassTest, HasPropertyA);}
+\DoxyCodeLine{  FRIEND\_TEST(MyClassTest, HasPropertyB);}
+\DoxyCodeLine{  ... definition of \textcolor{keyword}{class }MyClass ...}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\}  \textcolor{comment}{// namespace my\_namespace}}
+\end{DoxyCode}
+
+
+Then the test code should look like\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{namespace }my\_namespace \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{class }MyClassTest : \textcolor{keyword}{public} \mbox{\hyperlink{classtesting_1_1Test}{::testing::Test}} \{}
+\DoxyCodeLine{  ...}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{TEST\_F(MyClassTest, HasPropertyA) \{ ... \}}
+\DoxyCodeLine{TEST\_F(MyClassTest, HasPropertyB) \{ ... \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\}  \textcolor{comment}{// namespace my\_namespace}}
+\end{DoxyCode}
+
+
+See \href{../advanced.md\#testing-private-code}{\texttt{ Testing Private Code}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_SCOPED_TRACE}{}\doxysubsection{S\+C\+O\+P\+E\+D\+\_\+\+T\+R\+A\+CE}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_SCOPED_TRACE}
+{\ttfamily S\+C\+O\+P\+E\+D\+\_\+\+T\+R\+A\+CE(}$\ast${\ttfamily message}$\ast${\ttfamily )}
+
+Causes the current file name, line number, and the given message $\ast${\ttfamily message}$\ast$ to be added to the failure message for each assertion failure that occurs in the scope.
+
+For more information, see \href{../advanced.md\#adding-traces-to-assertions}{\texttt{ Adding Traces to Assertions}}.
+
+See also the \href{\#ScopedTrace}{\texttt{ {\ttfamily Scoped\+Trace} class}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_GTEST_SKIP}{}\doxysubsection{G\+T\+E\+S\+T\+\_\+\+S\+K\+IP}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_GTEST_SKIP}
+{\ttfamily G\+T\+E\+S\+T\+\_\+\+S\+K\+I\+P()}
+
+Prevents further test execution at runtime.
+
+Can be used in individual test cases or in the {\ttfamily Set\+Up()} methods of test environments or test fixtures (classes derived from the \href{\#Environment}{\texttt{ {\ttfamily Environment}}} or \href{\#Test}{\texttt{ {\ttfamily Test}}} classes). If used in a global test environment {\ttfamily Set\+Up()} method, it skips all tests in the test program. If used in a test fixture {\ttfamily Set\+Up()} method, it skips all tests in the corresponding test suite.
+
+Similar to assertions, {\ttfamily G\+T\+E\+S\+T\+\_\+\+S\+K\+IP} allows streaming a custom message into it.
+
+See \href{../advanced.md\#skipping-test-execution}{\texttt{ Skipping Test Execution}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST}{}\doxysubsection{G\+T\+E\+S\+T\+\_\+\+A\+L\+L\+O\+W\+\_\+\+U\+N\+I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R\+I\+Z\+E\+D\+\_\+\+T\+E\+ST}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST}
+{\ttfamily G\+T\+E\+S\+T\+\_\+\+A\+L\+L\+O\+W\+\_\+\+U\+N\+I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R\+I\+Z\+E\+D\+\_\+\+T\+E\+ST(}$\ast${\ttfamily Test\+Suite\+Name}$\ast${\ttfamily )}
+
+Allows the value-\/parameterized test suite $\ast${\ttfamily Test\+Suite\+Name}$\ast$ to be uninstantiated.
+
+By default, every \href{\#TEST_P}{\texttt{ {\ttfamily T\+E\+S\+T\+\_\+P}}} call without a corresponding \href{\#INSTANTIATE_TEST_SUITE_P}{\texttt{ {\ttfamily I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}}} call causes a failing test in the test suite {\ttfamily Google\+Test\+Verification}. {\ttfamily G\+T\+E\+S\+T\+\_\+\+A\+L\+L\+O\+W\+\_\+\+U\+N\+I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R\+I\+Z\+E\+D\+\_\+\+T\+E\+ST} suppresses this failure for the given test suite.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md274}{}\doxysection{Classes and types}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md274}
+Google\+Test defines the following classes and types to help with writing tests.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_AssertionResult}{}\doxysubsection{Assertion\+Result}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_AssertionResult}
+{\ttfamily \+::testing\+::\+Assertion\+Result}
+
+A class for indicating whether an assertion was successful.
+
+When the assertion wasn\textquotesingle{}t successful, the {\ttfamily Assertion\+Result} object stores a non-\/empty failure message that can be retrieved with the object\textquotesingle{}s {\ttfamily message()} method.
+
+To create an instance of this class, use one of the factory functions \href{\#AssertionSuccess}{\texttt{ {\ttfamily Assertion\+Success()}}} or \href{\#AssertionFailure}{\texttt{ {\ttfamily Assertion\+Failure()}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_AssertionException}{}\doxysubsection{Assertion\+Exception}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_AssertionException}
+{\ttfamily \+::testing\+::\+Assertion\+Exception}
+
+Exception which can be thrown from \href{\#TestEventListener::OnTestPartResult}{\texttt{ {\ttfamily Test\+Event\+Listener\+::\+On\+Test\+Part\+Result}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_EmptyTestEventListener}{}\doxysubsection{Empty\+Test\+Event\+Listener}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_EmptyTestEventListener}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1EmptyTestEventListener}{testing\+::\+Empty\+Test\+Event\+Listener}}}
+
+Provides an empty implementation of all methods in the \href{\#TestEventListener}{\texttt{ {\ttfamily Test\+Event\+Listener}}} interface, such that a subclass only needs to override the methods it cares about.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Environment}{}\doxysubsection{Environment}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Environment}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1Environment}{testing\+::\+Environment}}}
+
+Represents a global test environment. See \href{../advanced.md\#global-set-up-and-tear-down}{\texttt{ Global Set-\/\+Up and Tear-\/\+Down}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Environment-protected}{}\doxysubsubsection{Protected Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Environment-protected}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md275}{}\doxyparagraph{Set\+Up \{\#\+Environment\+::\+Set\+Up\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md275}
+{\ttfamily virtual void Environment\+::\+Set\+Up()}
+
+Override this to define how to set up the environment.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md276}{}\doxyparagraph{Tear\+Down \{\#\+Environment\+::\+Tear\+Down\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md276}
+{\ttfamily virtual void Environment\+::\+Tear\+Down()}
+
+Override this to define how to tear down the environment.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_ScopedTrace}{}\doxysubsection{Scoped\+Trace}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_ScopedTrace}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1ScopedTrace}{testing\+::\+Scoped\+Trace}}}
+
+An instance of this class causes a trace to be included in every test failure message generated by code in the scope of the lifetime of the {\ttfamily Scoped\+Trace} instance. The effect is undone with the destruction of the instance.
+
+The {\ttfamily Scoped\+Trace} constructor has the following form\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{ScopedTrace(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* file, \textcolor{keywordtype}{int} line, \textcolor{keyword}{const} T\& message)}
+\end{DoxyCode}
+
+
+Example usage\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classtesting_1_1ScopedTrace}{::testing::ScopedTrace}} trace(\textcolor{stringliteral}{"file.cc"}, 123, \textcolor{stringliteral}{"message"});}
+\end{DoxyCode}
+
+
+The resulting trace includes the given source file path and line number, and the given message. The {\ttfamily message} argument can be anything streamable to {\ttfamily std\+::ostream}.
+
+See also \href{\#SCOPED_TRACE}{\texttt{ {\ttfamily S\+C\+O\+P\+E\+D\+\_\+\+T\+R\+A\+CE}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Test}{}\doxysubsection{Test}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Test}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1Test}{testing\+::\+Test}}}
+
+The abstract class that all tests inherit from. {\ttfamily Test} is not copyable.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Test-public}{}\doxysubsubsection{Public Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Test-public}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md277}{}\doxyparagraph{Set\+Up\+Test\+Suite \{\#\+Test\+::\+Set\+Up\+Test\+Suite\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md277}
+{\ttfamily static void Test\+::\+Set\+Up\+Test\+Suite()}
+
+Performs shared setup for all tests in the test suite. Google\+Test calls {\ttfamily Set\+Up\+Test\+Suite()} before running the first test in the test suite.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md278}{}\doxyparagraph{Tear\+Down\+Test\+Suite \{\#\+Test\+::\+Tear\+Down\+Test\+Suite\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md278}
+{\ttfamily static void Test\+::\+Tear\+Down\+Test\+Suite()}
+
+Performs shared teardown for all tests in the test suite. Google\+Test calls {\ttfamily Tear\+Down\+Test\+Suite()} after running the last test in the test suite.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md279}{}\doxyparagraph{Has\+Fatal\+Failure \{\#\+Test\+::\+Has\+Fatal\+Failure\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md279}
+{\ttfamily static bool Test\+::\+Has\+Fatal\+Failure()}
+
+Returns true if and only if the current test has a fatal failure.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md280}{}\doxyparagraph{Has\+Nonfatal\+Failure \{\#\+Test\+::\+Has\+Nonfatal\+Failure\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md280}
+{\ttfamily static bool Test\+::\+Has\+Nonfatal\+Failure()}
+
+Returns true if and only if the current test has a nonfatal failure.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md281}{}\doxyparagraph{Has\+Failure \{\#\+Test\+::\+Has\+Failure\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md281}
+{\ttfamily static bool Test\+::\+Has\+Failure()}
+
+Returns true if and only if the current test has any failure, either fatal or nonfatal.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md282}{}\doxyparagraph{Is\+Skipped \{\#\+Test\+::\+Is\+Skipped\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md282}
+{\ttfamily static bool Test\+::\+Is\+Skipped()}
+
+Returns true if and only if the current test was skipped.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md283}{}\doxyparagraph{Record\+Property \{\#\+Test\+::\+Record\+Property\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md283}
+{\ttfamily static void Test\+::\+Record\+Property(const std\+::string\& key, const std\+::string\& value)} \textbackslash{} {\ttfamily static void Test\+::\+Record\+Property(const std\+::string\& key, int value)}
+
+Logs a property for the current test, test suite, or entire invocation of the test program. Only the last value for a given key is logged.
+
+The key must be a valid X\+ML attribute name, and cannot conflict with the ones already used by Google\+Test ({\ttfamily name}, {\ttfamily status}, {\ttfamily time}, {\ttfamily classname}, {\ttfamily type\+\_\+param}, and {\ttfamily value\+\_\+param}).
+
+{\ttfamily Record\+Property} is {\ttfamily public static} so it can be called from utility functions that are not members of the test fixture.
+
+Calls to {\ttfamily Record\+Property} made during the lifespan of the test (from the moment its constructor starts to the moment its destructor finishes) are output in X\+ML as attributes of the {\ttfamily $<$testcase$>$} element. Properties recorded from a fixture\textquotesingle{}s {\ttfamily Set\+Up\+Test\+Suite} or {\ttfamily Tear\+Down\+Test\+Suite} methods are logged as attributes of the corresponding {\ttfamily $<$testsuite$>$} element. Calls to {\ttfamily Record\+Property} made in the global context (before or after invocation of {\ttfamily R\+U\+N\+\_\+\+A\+L\+L\+\_\+\+T\+E\+S\+TS} or from the {\ttfamily Set\+Up}/{\ttfamily Tear\+Down} methods of registered {\ttfamily Environment} objects) are output as attributes of the {\ttfamily $<$testsuites$>$} element.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Test-protected}{}\doxysubsubsection{Protected Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Test-protected}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md284}{}\doxyparagraph{Set\+Up \{\#\+Test\+::\+Set\+Up\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md284}
+{\ttfamily virtual void Test\+::\+Set\+Up()}
+
+Override this to perform test fixture setup. Google\+Test calls {\ttfamily Set\+Up()} before running each individual test.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md285}{}\doxyparagraph{Tear\+Down \{\#\+Test\+::\+Tear\+Down\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md285}
+{\ttfamily virtual void Test\+::\+Tear\+Down()}
+
+Override this to perform test fixture teardown. Google\+Test calls {\ttfamily Tear\+Down()} after running each individual test.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestWithParam}{}\doxysubsection{Test\+With\+Param}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestWithParam}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1TestWithParam}{testing\+::\+Test\+With\+Param}}$<$T$>$}
+
+A convenience class which inherits from both \href{\#Test}{\texttt{ {\ttfamily Test}}} and \href{\#WithParamInterface}{\texttt{ {\ttfamily With\+Param\+Interface$<$T$>$}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestSuite}{}\doxysubsection{Test\+Suite}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestSuite}
+Represents a test suite. {\ttfamily Test\+Suite} is not copyable.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestSuite-public}{}\doxysubsubsection{Public Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestSuite-public}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md286}{}\doxyparagraph{name \{\#\+Test\+Suite\+::name\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md286}
+{\ttfamily const char$\ast$ Test\+Suite\+::name() const}
+
+Gets the name of the test suite.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md287}{}\doxyparagraph{type\+\_\+param \{\#\+Test\+Suite\+::type\+\_\+param\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md287}
+{\ttfamily const char$\ast$ Test\+Suite\+::type\+\_\+param() const}
+
+Returns the name of the parameter type, or {\ttfamily N\+U\+LL} if this is not a typed or type-\/parameterized test suite. See \href{../advanced.md\#typed-tests}{\texttt{ Typed Tests}} and \href{../advanced.md\#type-parameterized-tests}{\texttt{ Type-\/\+Parameterized Tests}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md288}{}\doxyparagraph{should\+\_\+run \{\#\+Test\+Suite\+::should\+\_\+run\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md288}
+{\ttfamily bool Test\+Suite\+::should\+\_\+run() const}
+
+Returns true if any test in this test suite should run.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md289}{}\doxyparagraph{successful\+\_\+test\+\_\+count \{\#\+Test\+Suite\+::successful\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md289}
+{\ttfamily int Test\+Suite\+::successful\+\_\+test\+\_\+count() const}
+
+Gets the number of successful tests in this test suite.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md290}{}\doxyparagraph{skipped\+\_\+test\+\_\+count \{\#\+Test\+Suite\+::skipped\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md290}
+{\ttfamily int Test\+Suite\+::skipped\+\_\+test\+\_\+count() const}
+
+Gets the number of skipped tests in this test suite.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md291}{}\doxyparagraph{failed\+\_\+test\+\_\+count \{\#\+Test\+Suite\+::failed\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md291}
+{\ttfamily int Test\+Suite\+::failed\+\_\+test\+\_\+count() const}
+
+Gets the number of failed tests in this test suite.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md292}{}\doxyparagraph{reportable\+\_\+disabled\+\_\+test\+\_\+count \{\#\+Test\+Suite\+::reportable\+\_\+disabled\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md292}
+{\ttfamily int Test\+Suite\+::reportable\+\_\+disabled\+\_\+test\+\_\+count() const}
+
+Gets the number of disabled tests that will be reported in the X\+ML report.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md293}{}\doxyparagraph{disabled\+\_\+test\+\_\+count \{\#\+Test\+Suite\+::disabled\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md293}
+{\ttfamily int Test\+Suite\+::disabled\+\_\+test\+\_\+count() const}
+
+Gets the number of disabled tests in this test suite.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md294}{}\doxyparagraph{reportable\+\_\+test\+\_\+count \{\#\+Test\+Suite\+::reportable\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md294}
+{\ttfamily int Test\+Suite\+::reportable\+\_\+test\+\_\+count() const}
+
+Gets the number of tests to be printed in the X\+ML report.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md295}{}\doxyparagraph{test\+\_\+to\+\_\+run\+\_\+count \{\#\+Test\+Suite\+::test\+\_\+to\+\_\+run\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md295}
+{\ttfamily int Test\+Suite\+::test\+\_\+to\+\_\+run\+\_\+count() const}
+
+Get the number of tests in this test suite that should run.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md296}{}\doxyparagraph{total\+\_\+test\+\_\+count \{\#\+Test\+Suite\+::total\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md296}
+{\ttfamily int Test\+Suite\+::total\+\_\+test\+\_\+count() const}
+
+Gets the number of all tests in this test suite.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md297}{}\doxyparagraph{Passed \{\#\+Test\+Suite\+::\+Passed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md297}
+{\ttfamily bool Test\+Suite\+::\+Passed() const}
+
+Returns true if and only if the test suite passed.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md298}{}\doxyparagraph{Failed \{\#\+Test\+Suite\+::\+Failed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md298}
+{\ttfamily bool Test\+Suite\+::\+Failed() const}
+
+Returns true if and only if the test suite failed.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md299}{}\doxyparagraph{elapsed\+\_\+time \{\#\+Test\+Suite\+::elapsed\+\_\+time\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md299}
+{\ttfamily Time\+In\+Millis Test\+Suite\+::elapsed\+\_\+time() const}
+
+Returns the elapsed time, in milliseconds.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md300}{}\doxyparagraph{start\+\_\+timestamp \{\#\+Test\+Suite\+::start\+\_\+timestamp\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md300}
+{\ttfamily Time\+In\+Millis Test\+Suite\+::start\+\_\+timestamp() const}
+
+Gets the time of the test suite start, in ms from the start of the U\+N\+IX epoch.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md301}{}\doxyparagraph{Get\+Test\+Info \{\#\+Test\+Suite\+::\+Get\+Test\+Info\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md301}
+{\ttfamily const Test\+Info$\ast$ Test\+Suite\+::\+Get\+Test\+Info(int i) const}
+
+Returns the \href{\#TestInfo}{\texttt{ {\ttfamily Test\+Info}}} for the {\ttfamily i}-\/th test among all the tests. {\ttfamily i} can range from 0 to {\ttfamily total\+\_\+test\+\_\+count() -\/ 1}. If {\ttfamily i} is not in that range, returns {\ttfamily N\+U\+LL}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md302}{}\doxyparagraph{ad\+\_\+hoc\+\_\+test\+\_\+result \{\#\+Test\+Suite\+::ad\+\_\+hoc\+\_\+test\+\_\+result\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md302}
+{\ttfamily const Test\+Result\& Test\+Suite\+::ad\+\_\+hoc\+\_\+test\+\_\+result() const}
+
+Returns the \href{\#TestResult}{\texttt{ {\ttfamily Test\+Result}}} that holds test properties recorded during execution of {\ttfamily Set\+Up\+Test\+Suite} and {\ttfamily Tear\+Down\+Test\+Suite}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestInfo}{}\doxysubsection{Test\+Info}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestInfo}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1TestInfo}{testing\+::\+Test\+Info}}}
+
+Stores information about a test.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestInfo-public}{}\doxysubsubsection{Public Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestInfo-public}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md303}{}\doxyparagraph{test\+\_\+suite\+\_\+name \{\#\+Test\+Info\+::test\+\_\+suite\+\_\+name\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md303}
+{\ttfamily const char$\ast$ Test\+Info\+::test\+\_\+suite\+\_\+name() const}
+
+Returns the test suite name.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md304}{}\doxyparagraph{name \{\#\+Test\+Info\+::name\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md304}
+{\ttfamily const char$\ast$ Test\+Info\+::name() const}
+
+Returns the test name.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md305}{}\doxyparagraph{type\+\_\+param \{\#\+Test\+Info\+::type\+\_\+param\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md305}
+{\ttfamily const char$\ast$ Test\+Info\+::type\+\_\+param() const}
+
+Returns the name of the parameter type, or {\ttfamily N\+U\+LL} if this is not a typed or type-\/parameterized test. See \href{../advanced.md\#typed-tests}{\texttt{ Typed Tests}} and \href{../advanced.md\#type-parameterized-tests}{\texttt{ Type-\/\+Parameterized Tests}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md306}{}\doxyparagraph{value\+\_\+param \{\#\+Test\+Info\+::value\+\_\+param\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md306}
+{\ttfamily const char$\ast$ Test\+Info\+::value\+\_\+param() const}
+
+Returns the text representation of the value parameter, or {\ttfamily N\+U\+LL} if this is not a value-\/parameterized test. See \href{../advanced.md\#value-parameterized-tests}{\texttt{ Value-\/\+Parameterized Tests}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md307}{}\doxyparagraph{file \{\#\+Test\+Info\+::file\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md307}
+{\ttfamily const char$\ast$ Test\+Info\+::file() const}
+
+Returns the file name where this test is defined.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md308}{}\doxyparagraph{line \{\#\+Test\+Info\+::line\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md308}
+{\ttfamily int Test\+Info\+::line() const}
+
+Returns the line where this test is defined.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md309}{}\doxyparagraph{is\+\_\+in\+\_\+another\+\_\+shard \{\#\+Test\+Info\+::is\+\_\+in\+\_\+another\+\_\+shard\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md309}
+{\ttfamily bool Test\+Info\+::is\+\_\+in\+\_\+another\+\_\+shard() const}
+
+Returns true if this test should not be run because it\textquotesingle{}s in another shard.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md310}{}\doxyparagraph{should\+\_\+run \{\#\+Test\+Info\+::should\+\_\+run\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md310}
+{\ttfamily bool Test\+Info\+::should\+\_\+run() const}
+
+Returns true if this test should run, that is if the test is not disabled (or it is disabled but the {\ttfamily also\+\_\+run\+\_\+disabled\+\_\+tests} flag has been specified) and its full name matches the user-\/specified filter.
+
+Google\+Test allows the user to filter the tests by their full names. Only the tests that match the filter will run. See \href{../advanced.md\#running-a-subset-of-the-tests}{\texttt{ Running a Subset of the Tests}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md311}{}\doxyparagraph{is\+\_\+reportable \{\#\+Test\+Info\+::is\+\_\+reportable\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md311}
+{\ttfamily bool Test\+Info\+::is\+\_\+reportable() const}
+
+Returns true if and only if this test will appear in the X\+ML report.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md312}{}\doxyparagraph{result \{\#\+Test\+Info\+::result\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md312}
+{\ttfamily const Test\+Result$\ast$ Test\+Info\+::result() const}
+
+Returns the result of the test. See \href{\#TestResult}{\texttt{ {\ttfamily Test\+Result}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestParamInfo}{}\doxysubsection{Test\+Param\+Info}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestParamInfo}
+{\ttfamily \mbox{\hyperlink{structtesting_1_1TestParamInfo}{testing\+::\+Test\+Param\+Info}}$<$T$>$}
+
+Describes a parameter to a value-\/parameterized test. The type {\ttfamily T} is the type of the parameter.
+
+Contains the fields {\ttfamily param} and {\ttfamily index} which hold the value of the parameter and its integer index respectively.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_UnitTest}{}\doxysubsection{Unit\+Test}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_UnitTest}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1UnitTest}{testing\+::\+Unit\+Test}}}
+
+This class contains information about the test program.
+
+{\ttfamily Unit\+Test} is a singleton class. The only instance is created when {\ttfamily Unit\+Test\+::\+Get\+Instance()} is first called. This instance is never deleted.
+
+{\ttfamily Unit\+Test} is not copyable.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_UnitTest-public}{}\doxysubsubsection{Public Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_UnitTest-public}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md313}{}\doxyparagraph{Get\+Instance \{\#\+Unit\+Test\+::\+Get\+Instance\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md313}
+{\ttfamily static Unit\+Test$\ast$ Unit\+Test\+::\+Get\+Instance()}
+
+Gets the singleton {\ttfamily Unit\+Test} object. The first time this method is called, a {\ttfamily Unit\+Test} object is constructed and returned. Consecutive calls will return the same object.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md314}{}\doxyparagraph{original\+\_\+working\+\_\+dir \{\#\+Unit\+Test\+::original\+\_\+working\+\_\+dir\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md314}
+{\ttfamily const char$\ast$ Unit\+Test\+::original\+\_\+working\+\_\+dir() const}
+
+Returns the working directory when the first \href{\#TEST}{\texttt{ {\ttfamily T\+E\+S\+T()}}} or \href{\#TEST_F}{\texttt{ {\ttfamily T\+E\+S\+T\+\_\+\+F()}}} was executed. The {\ttfamily Unit\+Test} object owns the string.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md315}{}\doxyparagraph{current\+\_\+test\+\_\+suite \{\#\+Unit\+Test\+::current\+\_\+test\+\_\+suite\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md315}
+{\ttfamily const Test\+Suite$\ast$ Unit\+Test\+::current\+\_\+test\+\_\+suite() const}
+
+Returns the \href{\#TestSuite}{\texttt{ {\ttfamily Test\+Suite}}} object for the test that\textquotesingle{}s currently running, or {\ttfamily N\+U\+LL} if no test is running.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md316}{}\doxyparagraph{current\+\_\+test\+\_\+info \{\#\+Unit\+Test\+::current\+\_\+test\+\_\+info\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md316}
+{\ttfamily const Test\+Info$\ast$ Unit\+Test\+::current\+\_\+test\+\_\+info() const}
+
+Returns the \href{\#TestInfo}{\texttt{ {\ttfamily Test\+Info}}} object for the test that\textquotesingle{}s currently running, or {\ttfamily N\+U\+LL} if no test is running.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md317}{}\doxyparagraph{random\+\_\+seed \{\#\+Unit\+Test\+::random\+\_\+seed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md317}
+{\ttfamily int Unit\+Test\+::random\+\_\+seed() const}
+
+Returns the random seed used at the start of the current test run.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md318}{}\doxyparagraph{successful\+\_\+test\+\_\+suite\+\_\+count \{\#\+Unit\+Test\+::successful\+\_\+test\+\_\+suite\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md318}
+{\ttfamily int Unit\+Test\+::successful\+\_\+test\+\_\+suite\+\_\+count() const}
+
+Gets the number of successful test suites.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md319}{}\doxyparagraph{failed\+\_\+test\+\_\+suite\+\_\+count \{\#\+Unit\+Test\+::failed\+\_\+test\+\_\+suite\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md319}
+{\ttfamily int Unit\+Test\+::failed\+\_\+test\+\_\+suite\+\_\+count() const}
+
+Gets the number of failed test suites.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md320}{}\doxyparagraph{total\+\_\+test\+\_\+suite\+\_\+count \{\#\+Unit\+Test\+::total\+\_\+test\+\_\+suite\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md320}
+{\ttfamily int Unit\+Test\+::total\+\_\+test\+\_\+suite\+\_\+count() const}
+
+Gets the number of all test suites.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md321}{}\doxyparagraph{test\+\_\+suite\+\_\+to\+\_\+run\+\_\+count \{\#\+Unit\+Test\+::test\+\_\+suite\+\_\+to\+\_\+run\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md321}
+{\ttfamily int Unit\+Test\+::test\+\_\+suite\+\_\+to\+\_\+run\+\_\+count() const}
+
+Gets the number of all test suites that contain at least one test that should run.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md322}{}\doxyparagraph{successful\+\_\+test\+\_\+count \{\#\+Unit\+Test\+::successful\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md322}
+{\ttfamily int Unit\+Test\+::successful\+\_\+test\+\_\+count() const}
+
+Gets the number of successful tests.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md323}{}\doxyparagraph{skipped\+\_\+test\+\_\+count \{\#\+Unit\+Test\+::skipped\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md323}
+{\ttfamily int Unit\+Test\+::skipped\+\_\+test\+\_\+count() const}
+
+Gets the number of skipped tests.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md324}{}\doxyparagraph{failed\+\_\+test\+\_\+count \{\#\+Unit\+Test\+::failed\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md324}
+{\ttfamily int Unit\+Test\+::failed\+\_\+test\+\_\+count() const}
+
+Gets the number of failed tests.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md325}{}\doxyparagraph{reportable\+\_\+disabled\+\_\+test\+\_\+count \{\#\+Unit\+Test\+::reportable\+\_\+disabled\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md325}
+{\ttfamily int Unit\+Test\+::reportable\+\_\+disabled\+\_\+test\+\_\+count() const}
+
+Gets the number of disabled tests that will be reported in the X\+ML report.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md326}{}\doxyparagraph{disabled\+\_\+test\+\_\+count \{\#\+Unit\+Test\+::disabled\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md326}
+{\ttfamily int Unit\+Test\+::disabled\+\_\+test\+\_\+count() const}
+
+Gets the number of disabled tests.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md327}{}\doxyparagraph{reportable\+\_\+test\+\_\+count \{\#\+Unit\+Test\+::reportable\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md327}
+{\ttfamily int Unit\+Test\+::reportable\+\_\+test\+\_\+count() const}
+
+Gets the number of tests to be printed in the X\+ML report.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md328}{}\doxyparagraph{total\+\_\+test\+\_\+count \{\#\+Unit\+Test\+::total\+\_\+test\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md328}
+{\ttfamily int Unit\+Test\+::total\+\_\+test\+\_\+count() const}
+
+Gets the number of all tests.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md329}{}\doxyparagraph{test\+\_\+to\+\_\+run\+\_\+count \{\#\+Unit\+Test\+::test\+\_\+to\+\_\+run\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md329}
+{\ttfamily int Unit\+Test\+::test\+\_\+to\+\_\+run\+\_\+count() const}
+
+Gets the number of tests that should run.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md330}{}\doxyparagraph{start\+\_\+timestamp \{\#\+Unit\+Test\+::start\+\_\+timestamp\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md330}
+{\ttfamily Time\+In\+Millis Unit\+Test\+::start\+\_\+timestamp() const}
+
+Gets the time of the test program start, in ms from the start of the U\+N\+IX epoch.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md331}{}\doxyparagraph{elapsed\+\_\+time \{\#\+Unit\+Test\+::elapsed\+\_\+time\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md331}
+{\ttfamily Time\+In\+Millis Unit\+Test\+::elapsed\+\_\+time() const}
+
+Gets the elapsed time, in milliseconds.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md332}{}\doxyparagraph{Passed \{\#\+Unit\+Test\+::\+Passed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md332}
+{\ttfamily bool Unit\+Test\+::\+Passed() const}
+
+Returns true if and only if the unit test passed (i.\+e. all test suites passed).\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md333}{}\doxyparagraph{Failed \{\#\+Unit\+Test\+::\+Failed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md333}
+{\ttfamily bool Unit\+Test\+::\+Failed() const}
+
+Returns true if and only if the unit test failed (i.\+e. some test suite failed or something outside of all tests failed).\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md334}{}\doxyparagraph{Get\+Test\+Suite \{\#\+Unit\+Test\+::\+Get\+Test\+Suite\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md334}
+{\ttfamily const Test\+Suite$\ast$ Unit\+Test\+::\+Get\+Test\+Suite(int i) const}
+
+Gets the \href{\#TestSuite}{\texttt{ {\ttfamily Test\+Suite}}} object for the {\ttfamily i}-\/th test suite among all the test suites. {\ttfamily i} can range from 0 to {\ttfamily total\+\_\+test\+\_\+suite\+\_\+count() -\/ 1}. If {\ttfamily i} is not in that range, returns {\ttfamily N\+U\+LL}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md335}{}\doxyparagraph{ad\+\_\+hoc\+\_\+test\+\_\+result \{\#\+Unit\+Test\+::ad\+\_\+hoc\+\_\+test\+\_\+result\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md335}
+{\ttfamily const Test\+Result\& Unit\+Test\+::ad\+\_\+hoc\+\_\+test\+\_\+result() const}
+
+Returns the \href{\#TestResult}{\texttt{ {\ttfamily Test\+Result}}} containing information on test failures and properties logged outside of individual test suites.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md336}{}\doxyparagraph{listeners \{\#\+Unit\+Test\+::listeners\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md336}
+{\ttfamily Test\+Event\+Listeners\& Unit\+Test\+::listeners()}
+
+Returns the list of event listeners that can be used to track events inside Google\+Test. See \href{\#TestEventListeners}{\texttt{ {\ttfamily Test\+Event\+Listeners}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestEventListener}{}\doxysubsection{Test\+Event\+Listener}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestEventListener}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1TestEventListener}{testing\+::\+Test\+Event\+Listener}}}
+
+The interface for tracing execution of tests. The methods below are listed in the order the corresponding events are fired.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestEventListener-public}{}\doxysubsubsection{Public Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestEventListener-public}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md337}{}\doxyparagraph{On\+Test\+Program\+Start \{\#\+Test\+Event\+Listener\+::\+On\+Test\+Program\+Start\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md337}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Test\+Program\+Start(const Unit\+Test\& unit\+\_\+test)}
+
+Fired before any test activity starts.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md338}{}\doxyparagraph{On\+Test\+Iteration\+Start \{\#\+Test\+Event\+Listener\+::\+On\+Test\+Iteration\+Start\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md338}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Test\+Iteration\+Start(const Unit\+Test\& unit\+\_\+test, int iteration)}
+
+Fired before each iteration of tests starts. There may be more than one iteration if {\ttfamily G\+T\+E\+S\+T\+\_\+\+F\+L\+A\+G(repeat)} is set. {\ttfamily iteration} is the iteration index, starting from 0.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md339}{}\doxyparagraph{On\+Environments\+Set\+Up\+Start \{\#\+Test\+Event\+Listener\+::\+On\+Environments\+Set\+Up\+Start\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md339}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Environments\+Set\+Up\+Start(const Unit\+Test\& unit\+\_\+test)}
+
+Fired before environment set-\/up for each iteration of tests starts.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md340}{}\doxyparagraph{On\+Environments\+Set\+Up\+End \{\#\+Test\+Event\+Listener\+::\+On\+Environments\+Set\+Up\+End\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md340}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Environments\+Set\+Up\+End(const Unit\+Test\& unit\+\_\+test)}
+
+Fired after environment set-\/up for each iteration of tests ends.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md341}{}\doxyparagraph{On\+Test\+Suite\+Start \{\#\+Test\+Event\+Listener\+::\+On\+Test\+Suite\+Start\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md341}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Test\+Suite\+Start(const Test\+Suite\& test\+\_\+suite)}
+
+Fired before the test suite starts.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md342}{}\doxyparagraph{On\+Test\+Start \{\#\+Test\+Event\+Listener\+::\+On\+Test\+Start\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md342}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Test\+Start(const Test\+Info\& test\+\_\+info)}
+
+Fired before the test starts.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md343}{}\doxyparagraph{On\+Test\+Part\+Result \{\#\+Test\+Event\+Listener\+::\+On\+Test\+Part\+Result\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md343}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Test\+Part\+Result(const Test\+Part\+Result\& test\+\_\+part\+\_\+result)}
+
+Fired after a failed assertion or a {\ttfamily S\+U\+C\+C\+E\+E\+D()} invocation. If you want to throw an exception from this function to skip to the next test, it must be an \href{\#AssertionException}{\texttt{ {\ttfamily Assertion\+Exception}}} or inherited from it.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md344}{}\doxyparagraph{On\+Test\+End \{\#\+Test\+Event\+Listener\+::\+On\+Test\+End\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md344}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Test\+End(const Test\+Info\& test\+\_\+info)}
+
+Fired after the test ends.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md345}{}\doxyparagraph{On\+Test\+Suite\+End \{\#\+Test\+Event\+Listener\+::\+On\+Test\+Suite\+End\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md345}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Test\+Suite\+End(const Test\+Suite\& test\+\_\+suite)}
+
+Fired after the test suite ends.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md346}{}\doxyparagraph{On\+Environments\+Tear\+Down\+Start \{\#\+Test\+Event\+Listener\+::\+On\+Environments\+Tear\+Down\+Start\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md346}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Environments\+Tear\+Down\+Start(const Unit\+Test\& unit\+\_\+test)}
+
+Fired before environment tear-\/down for each iteration of tests starts.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md347}{}\doxyparagraph{On\+Environments\+Tear\+Down\+End \{\#\+Test\+Event\+Listener\+::\+On\+Environments\+Tear\+Down\+End\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md347}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Environments\+Tear\+Down\+End(const Unit\+Test\& unit\+\_\+test)}
+
+Fired after environment tear-\/down for each iteration of tests ends.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md348}{}\doxyparagraph{On\+Test\+Iteration\+End \{\#\+Test\+Event\+Listener\+::\+On\+Test\+Iteration\+End\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md348}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Test\+Iteration\+End(const Unit\+Test\& unit\+\_\+test, int iteration)}
+
+Fired after each iteration of tests finishes.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md349}{}\doxyparagraph{On\+Test\+Program\+End \{\#\+Test\+Event\+Listener\+::\+On\+Test\+Program\+End\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md349}
+{\ttfamily virtual void Test\+Event\+Listener\+::\+On\+Test\+Program\+End(const Unit\+Test\& unit\+\_\+test)}
+
+Fired after all test activities have ended.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestEventListeners}{}\doxysubsection{Test\+Event\+Listeners}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestEventListeners}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1TestEventListeners}{testing\+::\+Test\+Event\+Listeners}}}
+
+Lets users add listeners to track events in Google\+Test.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestEventListeners-public}{}\doxysubsubsection{Public Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestEventListeners-public}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md350}{}\doxyparagraph{Append \{\#\+Test\+Event\+Listeners\+::\+Append\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md350}
+{\ttfamily void Test\+Event\+Listeners\+::\+Append(\+Test\+Event\+Listener$\ast$ listener)}
+
+Appends an event listener to the end of the list. Google\+Test assumes ownership of the listener (i.\+e. it will delete the listener when the test program finishes).\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md351}{}\doxyparagraph{Release \{\#\+Test\+Event\+Listeners\+::\+Release\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md351}
+{\ttfamily Test\+Event\+Listener$\ast$ Test\+Event\+Listeners\+::\+Release(\+Test\+Event\+Listener$\ast$ listener)}
+
+Removes the given event listener from the list and returns it. It then becomes the caller\textquotesingle{}s responsibility to delete the listener. Returns {\ttfamily N\+U\+LL} if the listener is not found in the list.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md352}{}\doxyparagraph{default\+\_\+result\+\_\+printer \{\#\+Test\+Event\+Listeners\+::default\+\_\+result\+\_\+printer\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md352}
+{\ttfamily Test\+Event\+Listener$\ast$ Test\+Event\+Listeners\+::default\+\_\+result\+\_\+printer() const}
+
+Returns the standard listener responsible for the default console output. Can be removed from the listeners list to shut down default console output. Note that removing this object from the listener list with \href{\#TestEventListeners::Release}{\texttt{ {\ttfamily Release()}}} transfers its ownership to the caller and makes this function return {\ttfamily N\+U\+LL} the next time.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md353}{}\doxyparagraph{default\+\_\+xml\+\_\+generator \{\#\+Test\+Event\+Listeners\+::default\+\_\+xml\+\_\+generator\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md353}
+{\ttfamily Test\+Event\+Listener$\ast$ Test\+Event\+Listeners\+::default\+\_\+xml\+\_\+generator() const}
+
+Returns the standard listener responsible for the default X\+ML output controlled by the {\ttfamily -\/-\/gtest\+\_\+output=xml} flag. Can be removed from the listeners list by users who want to shut down the default X\+ML output controlled by this flag and substitute it with custom one. Note that removing this object from the listener list with \href{\#TestEventListeners::Release}{\texttt{ {\ttfamily Release()}}} transfers its ownership to the caller and makes this function return {\ttfamily N\+U\+LL} the next time.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestPartResult}{}\doxysubsection{Test\+Part\+Result}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestPartResult}
+{\ttfamily \+::testing\+::\+Test\+Part\+Result}
+
+A copyable object representing the result of a test part (i.\+e. an assertion or an explicit {\ttfamily F\+A\+I\+L()}, {\ttfamily A\+D\+D\+\_\+\+F\+A\+I\+L\+U\+R\+E()}, or {\ttfamily S\+U\+C\+C\+E\+S\+S()}).\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestPartResult-public}{}\doxysubsubsection{Public Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestPartResult-public}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md354}{}\doxyparagraph{type \{\#\+Test\+Part\+Result\+::type\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md354}
+{\ttfamily Type Test\+Part\+Result\+::type() const}
+
+Gets the outcome of the test part.
+
+The return type {\ttfamily Type} is an enum defined as follows\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{enum} Type \{}
+\DoxyCodeLine{  kSuccess,          \textcolor{comment}{// Succeeded.}}
+\DoxyCodeLine{  kNonFatalFailure,  \textcolor{comment}{// Failed but the test can continue.}}
+\DoxyCodeLine{  kFatalFailure,     \textcolor{comment}{// Failed and the test should be terminated.}}
+\DoxyCodeLine{  kSkip              \textcolor{comment}{// Skipped.}}
+\DoxyCodeLine{\};}
+\end{DoxyCode}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md355}{}\doxyparagraph{file\+\_\+name \{\#\+Test\+Part\+Result\+::file\+\_\+name\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md355}
+{\ttfamily const char$\ast$ Test\+Part\+Result\+::file\+\_\+name() const}
+
+Gets the name of the source file where the test part took place, or {\ttfamily N\+U\+LL} if it\textquotesingle{}s unknown.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md356}{}\doxyparagraph{line\+\_\+number \{\#\+Test\+Part\+Result\+::line\+\_\+number\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md356}
+{\ttfamily int Test\+Part\+Result\+::line\+\_\+number() const}
+
+Gets the line in the source file where the test part took place, or {\ttfamily -\/1} if it\textquotesingle{}s unknown.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md357}{}\doxyparagraph{summary \{\#\+Test\+Part\+Result\+::summary\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md357}
+{\ttfamily const char$\ast$ Test\+Part\+Result\+::summary() const}
+
+Gets the summary of the failure message.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md358}{}\doxyparagraph{message \{\#\+Test\+Part\+Result\+::message\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md358}
+{\ttfamily const char$\ast$ Test\+Part\+Result\+::message() const}
+
+Gets the message associated with the test part.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md359}{}\doxyparagraph{skipped \{\#\+Test\+Part\+Result\+::skipped\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md359}
+{\ttfamily bool Test\+Part\+Result\+::skipped() const}
+
+Returns true if and only if the test part was skipped.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md360}{}\doxyparagraph{passed \{\#\+Test\+Part\+Result\+::passed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md360}
+{\ttfamily bool Test\+Part\+Result\+::passed() const}
+
+Returns true if and only if the test part passed.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md361}{}\doxyparagraph{nonfatally\+\_\+failed \{\#\+Test\+Part\+Result\+::nonfatally\+\_\+failed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md361}
+{\ttfamily bool Test\+Part\+Result\+::nonfatally\+\_\+failed() const}
+
+Returns true if and only if the test part non-\/fatally failed.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md362}{}\doxyparagraph{fatally\+\_\+failed \{\#\+Test\+Part\+Result\+::fatally\+\_\+failed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md362}
+{\ttfamily bool Test\+Part\+Result\+::fatally\+\_\+failed() const}
+
+Returns true if and only if the test part fatally failed.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md363}{}\doxyparagraph{failed \{\#\+Test\+Part\+Result\+::failed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md363}
+{\ttfamily bool Test\+Part\+Result\+::failed() const}
+
+Returns true if and only if the test part failed.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestProperty}{}\doxysubsection{Test\+Property}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestProperty}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1TestProperty}{testing\+::\+Test\+Property}}}
+
+A copyable object representing a user-\/specified test property which can be output as a key/value string pair.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestProperty-public}{}\doxysubsubsection{Public Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestProperty-public}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_key}{}\doxyparagraph{key}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_key}
+{\ttfamily const char$\ast$ key() const}
+
+Gets the user-\/supplied key.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_value}{}\doxyparagraph{value}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_value}
+{\ttfamily const char$\ast$ value() const}
+
+Gets the user-\/supplied value.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_SetValue}{}\doxyparagraph{Set\+Value}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_SetValue}
+{\ttfamily void Set\+Value(const std\+::string\& new\+\_\+value)}
+
+Sets a new value, overriding the previous one.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestResult}{}\doxysubsection{Test\+Result}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestResult}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1TestResult}{testing\+::\+Test\+Result}}}
+
+Contains information about the result of a single test.
+
+{\ttfamily Test\+Result} is not copyable.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestResult-public}{}\doxysubsubsection{Public Methods}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TestResult-public}
+\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md364}{}\doxyparagraph{total\+\_\+part\+\_\+count \{\#\+Test\+Result\+::total\+\_\+part\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md364}
+{\ttfamily int Test\+Result\+::total\+\_\+part\+\_\+count() const}
+
+Gets the number of all test parts. This is the sum of the number of successful test parts and the number of failed test parts.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md365}{}\doxyparagraph{test\+\_\+property\+\_\+count \{\#\+Test\+Result\+::test\+\_\+property\+\_\+count\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md365}
+{\ttfamily int Test\+Result\+::test\+\_\+property\+\_\+count() const}
+
+Returns the number of test properties.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md366}{}\doxyparagraph{Passed \{\#\+Test\+Result\+::\+Passed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md366}
+{\ttfamily bool Test\+Result\+::\+Passed() const}
+
+Returns true if and only if the test passed (i.\+e. no test part failed).\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md367}{}\doxyparagraph{Skipped \{\#\+Test\+Result\+::\+Skipped\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md367}
+{\ttfamily bool Test\+Result\+::\+Skipped() const}
+
+Returns true if and only if the test was skipped.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md368}{}\doxyparagraph{Failed \{\#\+Test\+Result\+::\+Failed\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md368}
+{\ttfamily bool Test\+Result\+::\+Failed() const}
+
+Returns true if and only if the test failed.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md369}{}\doxyparagraph{Has\+Fatal\+Failure \{\#\+Test\+Result\+::\+Has\+Fatal\+Failure\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md369}
+{\ttfamily bool Test\+Result\+::\+Has\+Fatal\+Failure() const}
+
+Returns true if and only if the test fatally failed.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md370}{}\doxyparagraph{Has\+Nonfatal\+Failure \{\#\+Test\+Result\+::\+Has\+Nonfatal\+Failure\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md370}
+{\ttfamily bool Test\+Result\+::\+Has\+Nonfatal\+Failure() const}
+
+Returns true if and only if the test has a non-\/fatal failure.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md371}{}\doxyparagraph{elapsed\+\_\+time \{\#\+Test\+Result\+::elapsed\+\_\+time\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md371}
+{\ttfamily Time\+In\+Millis Test\+Result\+::elapsed\+\_\+time() const}
+
+Returns the elapsed time, in milliseconds.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md372}{}\doxyparagraph{start\+\_\+timestamp \{\#\+Test\+Result\+::start\+\_\+timestamp\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md372}
+{\ttfamily Time\+In\+Millis Test\+Result\+::start\+\_\+timestamp() const}
+
+Gets the time of the test case start, in ms from the start of the U\+N\+IX epoch.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md373}{}\doxyparagraph{Get\+Test\+Part\+Result \{\#\+Test\+Result\+::\+Get\+Test\+Part\+Result\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md373}
+{\ttfamily const Test\+Part\+Result\& Test\+Result\+::\+Get\+Test\+Part\+Result(int i) const}
+
+Returns the \href{\#TestPartResult}{\texttt{ {\ttfamily Test\+Part\+Result}}} for the {\ttfamily i}-\/th test part result among all the results. {\ttfamily i} can range from 0 to {\ttfamily total\+\_\+part\+\_\+count() -\/ 1}. If {\ttfamily i} is not in that range, aborts the program.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md374}{}\doxyparagraph{Get\+Test\+Property \{\#\+Test\+Result\+::\+Get\+Test\+Property\}}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md374}
+{\ttfamily const Test\+Property\& Test\+Result\+::\+Get\+Test\+Property(int i) const}
+
+Returns the \href{\#TestProperty}{\texttt{ {\ttfamily Test\+Property}}} object for the {\ttfamily i}-\/th test property. {\ttfamily i} can range from 0 to {\ttfamily test\+\_\+property\+\_\+count() -\/ 1}. If {\ttfamily i} is not in that range, aborts the program.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TimeInMillis}{}\doxysubsection{Time\+In\+Millis}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_TimeInMillis}
+{\ttfamily \+::testing\+::\+Time\+In\+Millis}
+
+An integer type representing time in milliseconds.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Types}{}\doxysubsection{Types}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_Types}
+{\ttfamily \+::testing\+::\+Types$<$T...$>$}
+
+Represents a list of types for use in typed tests and type-\/parameterized tests.
+
+The template argument {\ttfamily T...} can be any number of types, for example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{::testing::Types<char, int, unsigned int>}
+\end{DoxyCode}
+
+
+See \href{../advanced.md\#typed-tests}{\texttt{ Typed Tests}} and \href{../advanced.md\#type-parameterized-tests}{\texttt{ Type-\/\+Parameterized Tests}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_WithParamInterface}{}\doxysubsection{With\+Param\+Interface}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_WithParamInterface}
+{\ttfamily \mbox{\hyperlink{classtesting_1_1WithParamInterface}{testing\+::\+With\+Param\+Interface}}$<$T$>$}
+
+The pure interface class that all value-\/parameterized tests inherit from.
+
+A value-\/parameterized test fixture class must inherit from both \href{\#Test}{\texttt{ {\ttfamily Test}}} and {\ttfamily With\+Param\+Interface}. In most cases that just means inheriting from \href{\#TestWithParam}{\texttt{ {\ttfamily Test\+With\+Param}}}, but more complicated test hierarchies may need to inherit from {\ttfamily Test} and {\ttfamily With\+Param\+Interface} at different levels.
+
+This interface defines the type alias {\ttfamily Param\+Type} for the parameter type {\ttfamily T} and has support for accessing the test parameter value via the {\ttfamily Get\+Param()} method\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{static const ParamType\& GetParam()}
+\end{DoxyCode}
+
+
+For more information, see \href{../advanced.md\#value-parameterized-tests}{\texttt{ Value-\/\+Parameterized Tests}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md375}{}\doxysection{Functions}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_autotoc_md375}
+Google\+Test defines the following functions to help with writing and running tests.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_InitGoogleTest}{}\doxysubsection{Init\+Google\+Test}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_InitGoogleTest}
+{\ttfamily void \+::testing\+::\+Init\+Google\+Test(int$\ast$ argc, char$\ast$$\ast$ argv)} \textbackslash{} {\ttfamily void \+::testing\+::\+Init\+Google\+Test(int$\ast$ argc, wchar\+\_\+t$\ast$$\ast$ argv)} \textbackslash{} {\ttfamily void \+::testing\+::\+Init\+Google\+Test()}
+
+Initializes Google\+Test. This must be called before calling \href{\#RUN_ALL_TESTS}{\texttt{ {\ttfamily R\+U\+N\+\_\+\+A\+L\+L\+\_\+\+T\+E\+S\+T\+S()}}}. In particular, it parses the command line for the flags that Google\+Test recognizes. Whenever a Google\+Test flag is seen, it is removed from {\ttfamily argv}, and {\ttfamily $\ast$argc} is decremented.
+
+No value is returned. Instead, the Google\+Test flag variables are updated.
+
+The {\ttfamily Init\+Google\+Test(int$\ast$ argc, wchar\+\_\+t$\ast$$\ast$ argv)} overload can be used in Windows programs compiled in {\ttfamily U\+N\+I\+C\+O\+DE} mode.
+
+The argument-\/less {\ttfamily Init\+Google\+Test()} overload can be used on Arduino/embedded platforms where there is no {\ttfamily argc}/{\ttfamily argv}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_AddGlobalTestEnvironment}{}\doxysubsection{Add\+Global\+Test\+Environment}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_AddGlobalTestEnvironment}
+{\ttfamily Environment$\ast$ \+::testing\+::\+Add\+Global\+Test\+Environment(\+Environment$\ast$ env)}
+
+Adds a test environment to the test program. Must be called before \href{\#RUN_ALL_TESTS}{\texttt{ {\ttfamily R\+U\+N\+\_\+\+A\+L\+L\+\_\+\+T\+E\+S\+T\+S()}}} is called. See \href{../advanced.md\#global-set-up-and-tear-down}{\texttt{ Global Set-\/\+Up and Tear-\/\+Down}} for more information.
+
+See also \href{\#Environment}{\texttt{ {\ttfamily Environment}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_RegisterTest}{}\doxysubsection{Register\+Test}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_RegisterTest}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template} <\textcolor{keyword}{typename} Factory>}
+\DoxyCodeLine{TestInfo* ::testing::RegisterTest(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* test\_suite\_name, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* test\_name,}
+\DoxyCodeLine{                                  \textcolor{keyword}{const} \textcolor{keywordtype}{char}* type\_param, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* value\_param,}
+\DoxyCodeLine{                                  \textcolor{keyword}{const} \textcolor{keywordtype}{char}* file, \textcolor{keywordtype}{int} line, Factory factory)}
+\end{DoxyCode}
+
+
+Dynamically registers a test with the framework.
+
+The {\ttfamily factory} argument is a factory callable (move-\/constructible) object or function pointer that creates a new instance of the {\ttfamily Test} object. It handles ownership to the caller. The signature of the callable is {\ttfamily Fixture$\ast$()}, where {\ttfamily \mbox{\hyperlink{classFixture}{Fixture}}} is the test fixture class for the test. All tests registered with the same {\ttfamily test\+\_\+suite\+\_\+name} must return the same fixture type. This is checked at runtime.
+
+The framework will infer the fixture class from the factory and will call the {\ttfamily Set\+Up\+Test\+Suite} and {\ttfamily Tear\+Down\+Test\+Suite} methods for it.
+
+Must be called before \href{\#RUN_ALL_TESTS}{\texttt{ {\ttfamily R\+U\+N\+\_\+\+A\+L\+L\+\_\+\+T\+E\+S\+T\+S()}}} is invoked, otherwise behavior is undefined.
+
+See \href{../advanced.md\#registering-tests-programmatically}{\texttt{ Registering tests programmatically}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_RUN_ALL_TESTS}{}\doxysubsection{R\+U\+N\+\_\+\+A\+L\+L\+\_\+\+T\+E\+S\+TS}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_RUN_ALL_TESTS}
+{\ttfamily int R\+U\+N\+\_\+\+A\+L\+L\+\_\+\+T\+E\+S\+T\+S()}
+
+Use this function in {\ttfamily main()} to run all tests. It returns {\ttfamily 0} if all tests are successful, or {\ttfamily 1} otherwise.
+
+{\ttfamily R\+U\+N\+\_\+\+A\+L\+L\+\_\+\+T\+E\+S\+T\+S()} should be invoked after the command line has been parsed by \href{\#InitGoogleTest}{\texttt{ {\ttfamily Init\+Google\+Test()}}}.
+
+This function was formerly a macro; thus, it is in the global namespace and has an all-\/caps name.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_AssertionSuccess}{}\doxysubsection{Assertion\+Success}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_AssertionSuccess}
+{\ttfamily Assertion\+Result \+::testing\+::\+Assertion\+Success()}
+
+Creates a successful assertion result. See \href{\#AssertionResult}{\texttt{ {\ttfamily Assertion\+Result}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_AssertionFailure}{}\doxysubsection{Assertion\+Failure}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_AssertionFailure}
+{\ttfamily Assertion\+Result \+::testing\+::\+Assertion\+Failure()}
+
+Creates a failed assertion result. Use the {\ttfamily $<$$<$} operator to store a failure message\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{::testing::AssertionFailure() << \textcolor{stringliteral}{"My failure message"};}
+\end{DoxyCode}
+
+
+See \href{\#AssertionResult}{\texttt{ {\ttfamily Assertion\+Result}}}.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_StaticAssertTypeEq}{}\doxysubsection{Static\+Assert\+Type\+Eq}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_StaticAssertTypeEq}
+{\ttfamily \+::testing\+::\+Static\+Assert\+Type\+Eq$<$T1, T2$>$()}
+
+Compile-\/time assertion for type equality. Compiles if and only if {\ttfamily T1} and {\ttfamily T2} are the same type. The value it returns is irrelevant.
+
+See \href{../advanced.md\#type-assertions}{\texttt{ Type Assertions}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_PrintToString}{}\doxysubsection{Print\+To\+String}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_PrintToString}
+{\ttfamily std\+::string \+::testing\+::\+Print\+To\+String(x)}
+
+Prints any value {\ttfamily x} using Google\+Test\textquotesingle{}s value printer.
+
+See \href{../advanced.md\#teaching-googletest-how-to-print-your-values}{\texttt{ Teaching Google\+Test How to Print Your Values}} for more information.\hypertarget{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_PrintToStringParamName}{}\doxysubsection{Print\+To\+String\+Param\+Name}\label{md__home_omer_rr_src_RoboticsKinematicsSolver_build__deps_googletest-src_docs_reference_testing_PrintToStringParamName}
+{\ttfamily std\+::string \mbox{\hyperlink{structtesting_1_1PrintToStringParamName}{testing\+::\+Print\+To\+String\+Param\+Name}}(Test\+Param\+Info$<$T$>$\& info)}
+
+A built-\/in parameterized test name generator which returns the result of \href{\#PrintToString}{\texttt{ {\ttfamily Print\+To\+String}}} called on {\ttfamily info.\+param}. Does not work when the test parameter is a {\ttfamily std\+::string} or C string. See \href{../advanced.md\#specifying-names-for-value-parameterized-test-parameters}{\texttt{ Specifying Names for Value-\/\+Parameterized Test Parameters}} for more information.
+
+See also \href{\#TestParamInfo}{\texttt{ {\ttfamily Test\+Param\+Info}}} and \href{\#INSTANTIATE_TEST_SUITE_P}{\texttt{ {\ttfamily I\+N\+S\+T\+A\+N\+T\+I\+A\+T\+E\+\_\+\+T\+E\+S\+T\+\_\+\+S\+U\+I\+T\+E\+\_\+P}}}. 

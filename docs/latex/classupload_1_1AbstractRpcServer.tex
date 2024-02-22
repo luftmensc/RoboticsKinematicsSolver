@@ -1,0 +1,104 @@
+\hypertarget{classupload_1_1AbstractRpcServer}{}\doxysection{upload.\+Abstract\+Rpc\+Server Class Reference}
+\label{classupload_1_1AbstractRpcServer}\index{upload.AbstractRpcServer@{upload.AbstractRpcServer}}
+
+
+Inheritance diagram for upload.\+Abstract\+Rpc\+Server\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=223pt]{classupload_1_1AbstractRpcServer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for upload.\+Abstract\+Rpc\+Server\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=223pt]{classupload_1_1AbstractRpcServer__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classupload_1_1AbstractRpcServer_a3f6bc1bd16b52bd5a5c33a1fedeef2d0}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, host, auth\+\_\+function, host\+\_\+override=None, extra\+\_\+headers=\{\}, save\+\_\+cookies=False)
+\item 
+def \mbox{\hyperlink{classupload_1_1AbstractRpcServer_ad6555ae8993a52035191f8572762e741}{Send}} (self, request\+\_\+path, payload=None, content\+\_\+type=\char`\"{}application/octet-\/stream\char`\"{}, timeout=None, $\ast$$\ast$kwargs)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classupload_1_1AbstractRpcServer_ab7188d827e2faddcf970f524f5856192}\label{classupload_1_1AbstractRpcServer_ab7188d827e2faddcf970f524f5856192}} 
+{\bfseries host}
+\item 
+\mbox{\Hypertarget{classupload_1_1AbstractRpcServer_a783a4a7e4ffb776a57a3f267300a213b}\label{classupload_1_1AbstractRpcServer_a783a4a7e4ffb776a57a3f267300a213b}} 
+{\bfseries host\+\_\+override}
+\item 
+\mbox{\Hypertarget{classupload_1_1AbstractRpcServer_aee0090a3bcf07b913a7dd596a5dabb8f}\label{classupload_1_1AbstractRpcServer_aee0090a3bcf07b913a7dd596a5dabb8f}} 
+{\bfseries auth\+\_\+function}
+\item 
+\mbox{\Hypertarget{classupload_1_1AbstractRpcServer_a692955750c802e461c6336d3000cd365}\label{classupload_1_1AbstractRpcServer_a692955750c802e461c6336d3000cd365}} 
+{\bfseries authenticated}
+\item 
+\mbox{\Hypertarget{classupload_1_1AbstractRpcServer_adbbf0109afc13d58d7815fa143cb779f}\label{classupload_1_1AbstractRpcServer_adbbf0109afc13d58d7815fa143cb779f}} 
+{\bfseries extra\+\_\+headers}
+\item 
+\mbox{\Hypertarget{classupload_1_1AbstractRpcServer_affe342205c4647d41b127f5a5634858b}\label{classupload_1_1AbstractRpcServer_affe342205c4647d41b127f5a5634858b}} 
+{\bfseries save\+\_\+cookies}
+\item 
+\mbox{\Hypertarget{classupload_1_1AbstractRpcServer_aa931446476e0e86f3ade7fef0a0aea5a}\label{classupload_1_1AbstractRpcServer_aa931446476e0e86f3ade7fef0a0aea5a}} 
+{\bfseries opener}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Provides a common interface for a simple RPC server.\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classupload_1_1AbstractRpcServer_a3f6bc1bd16b52bd5a5c33a1fedeef2d0}\label{classupload_1_1AbstractRpcServer_a3f6bc1bd16b52bd5a5c33a1fedeef2d0}} 
+\index{upload.AbstractRpcServer@{upload.AbstractRpcServer}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!upload.AbstractRpcServer@{upload.AbstractRpcServer}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def upload.\+Abstract\+Rpc\+Server.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{host,  }\item[{}]{auth\+\_\+function,  }\item[{}]{host\+\_\+override = {\ttfamily None},  }\item[{}]{extra\+\_\+headers = {\ttfamily \{\}},  }\item[{}]{save\+\_\+cookies = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Creates a new HttpRpcServer.
+
+Args:
+  host: The host to send requests to.
+  auth_function: A function that takes no arguments and returns an
+(email, password) tuple when called. Will be called if authentication
+is required.
+  host_override: The host header to send to the server (defaults to host).
+  extra_headers: A dict of extra headers to append to every request.
+  save_cookies: If True, save the authentication cookies to local disk.
+If False, use an in-memory cookiejar instead.  Subclasses must
+implement this functionality.  Defaults to False.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classupload_1_1AbstractRpcServer_ad6555ae8993a52035191f8572762e741}\label{classupload_1_1AbstractRpcServer_ad6555ae8993a52035191f8572762e741}} 
+\index{upload.AbstractRpcServer@{upload.AbstractRpcServer}!Send@{Send}}
+\index{Send@{Send}!upload.AbstractRpcServer@{upload.AbstractRpcServer}}
+\doxysubsubsection{\texorpdfstring{Send()}{Send()}}
+{\footnotesize\ttfamily def upload.\+Abstract\+Rpc\+Server.\+Send (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{request\+\_\+path,  }\item[{}]{payload = {\ttfamily None},  }\item[{}]{content\+\_\+type = {\ttfamily \char`\"{}application/octet-\/stream\char`\"{}},  }\item[{}]{timeout = {\ttfamily None},  }\item[{$\ast$$\ast$}]{kwargs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Sends an RPC and returns the response.
+
+Args:
+  request_path: The path to send the request to, eg /api/appversion/create.
+  payload: The body of the request, or None to send an empty request.
+  content_type: The Content-Type header to use.
+  timeout: timeout in seconds; default None i.e. no timeout.
+(Note: for large requests on OS X, the timeout doesn't work right.)
+  kwargs: Any keyword arguments are converted into query string parameters.
+
+Returns:
+  The response body, as a string.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/omer/rr/src/\+Robotics\+Kinematics\+Solver/build/\+\_\+deps/googletest-\/src/googletest/scripts/upload.\+py\end{DoxyCompactItemize}

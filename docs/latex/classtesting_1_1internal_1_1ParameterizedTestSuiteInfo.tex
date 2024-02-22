@@ -1,0 +1,58 @@
+\hypertarget{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo}{}\doxysection{testing\+::internal\+::Parameterized\+Test\+Suite\+Info$<$ Test\+Suite $>$ Class Template Reference}
+\label{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo}\index{testing::internal::ParameterizedTestSuiteInfo$<$ TestSuite $>$@{testing::internal::ParameterizedTestSuiteInfo$<$ TestSuite $>$}}
+
+
+Inheritance diagram for testing\+::internal\+::Parameterized\+Test\+Suite\+Info$<$ Test\+Suite $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=255pt]{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for testing\+::internal\+::Parameterized\+Test\+Suite\+Info$<$ Test\+Suite $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=255pt]{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a10761bd750a6820a8d8d2c654b10fe54}\label{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a10761bd750a6820a8d8d2c654b10fe54}} 
+using {\bfseries Param\+Type} = typename Test\+Suite\+::\+Param\+Type
+\item 
+\mbox{\Hypertarget{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a3b4f232b7d6d3df941bb8e81b6b534a4}\label{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a3b4f232b7d6d3df941bb8e81b6b534a4}} 
+using {\bfseries Param\+Name\+Generator\+Func} = std\+::string(const \mbox{\hyperlink{structtesting_1_1TestParamInfo}{Test\+Param\+Info}}$<$ Param\+Type $>$ \&)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_ac6230057c507d74e373233edbf0410c2}\label{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_ac6230057c507d74e373233edbf0410c2}} 
+typedef {\bfseries Param\+Generator} (Generator\+Creation\+Func)()
+\item 
+\mbox{\Hypertarget{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a56fc02ddec2cf2101332d1125e4c75a9}\label{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a56fc02ddec2cf2101332d1125e4c75a9}} 
+{\bfseries Parameterized\+Test\+Suite\+Info} (const char $\ast$name, \mbox{\hyperlink{structtesting_1_1internal_1_1CodeLocation}{Code\+Location}} code\+\_\+location)
+\item 
+\mbox{\Hypertarget{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a4a5ddc2cd0404438c2b4d405cd0e706c}\label{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a4a5ddc2cd0404438c2b4d405cd0e706c}} 
+const std\+::string \& {\bfseries Get\+Test\+Suite\+Name} () const override
+\item 
+\mbox{\Hypertarget{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_af488d1d7c1889a250acff2ea6eba4c84}\label{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_af488d1d7c1889a250acff2ea6eba4c84}} 
+Type\+Id {\bfseries Get\+Test\+Suite\+Type\+Id} () const override
+\item 
+\mbox{\Hypertarget{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a9d57a40601784b785e9a057b42f3336d}\label{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a9d57a40601784b785e9a057b42f3336d}} 
+void {\bfseries Add\+Test\+Pattern} (const char $\ast$test\+\_\+suite\+\_\+name, const char $\ast$test\+\_\+base\+\_\+name, \mbox{\hyperlink{classtesting_1_1internal_1_1TestMetaFactoryBase}{Test\+Meta\+Factory\+Base}}$<$ Param\+Type $>$ $\ast$meta\+\_\+factory, \mbox{\hyperlink{structtesting_1_1internal_1_1CodeLocation}{Code\+Location}} code\+\_\+location)
+\item 
+\mbox{\Hypertarget{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a174f164f38e522a3935da911a9c1e450}\label{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a174f164f38e522a3935da911a9c1e450}} 
+int {\bfseries Add\+Test\+Suite\+Instantiation} (const std\+::string \&instantiation\+\_\+name, Generator\+Creation\+Func $\ast$func, Param\+Name\+Generator\+Func $\ast$name\+\_\+func, const char $\ast$file, int line)
+\item 
+\mbox{\Hypertarget{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a8c0af866d3c291a63d3f4581ccd452d1}\label{classtesting_1_1internal_1_1ParameterizedTestSuiteInfo_a8c0af866d3c291a63d3f4581ccd452d1}} 
+void {\bfseries Register\+Tests} () override
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/omer/rr/src/\+Robotics\+Kinematics\+Solver/build/\+\_\+deps/googletest-\/src/googletest/include/gtest/internal/gtest-\/param-\/util.\+h\end{DoxyCompactItemize}
