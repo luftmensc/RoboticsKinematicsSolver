@@ -168,7 +168,8 @@ int main()
                     std::to_string(robot->getEndEffectorPosition()[1]) + " " +
                     std::to_string(jointAngles[0]*180.0/M_PI) + " " +
                     std::to_string(jointAngles[1]*180.0/M_PI) + " " +
-                    std::to_string(jointAngles[2]*180.0/M_PI); 
+                    std::to_string(jointAngles[2]*180.0/M_PI) +" " +
+                    "dummy"; // to identify the python script that it should only plot one solution
 
             std::cout << "Given command to python: " << command << std::endl; 
             std::system(command.c_str());
@@ -232,7 +233,7 @@ int main()
                 std::cout<< "End effector is not in the circle"<<std::endl;
             }
             std::cout << "------------------------------------------------------------------------------------------------"<<std::endl;
-            std::string command = "python3 visualize_robot.py" + 
+            std::string command = "python3 visualize_robot.py " + 
                     std::to_string(CircleParams[0]) + " " +
                     std::to_string(CircleParams[1]) + " " +
                     std::to_string(CircleParams[2]) + " " +

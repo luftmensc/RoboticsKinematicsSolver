@@ -13,7 +13,11 @@
 
 ThreeDOFRobot::ThreeDOFRobot(Eigen::Vector3d jointAngles, Eigen::Vector3d linkLengths) : jointAngles(jointAngles), linkLengths(linkLengths) {}
 
-ThreeDOFRobot::ThreeDOFRobot() = default;
+ThreeDOFRobot::ThreeDOFRobot(){
+    jointAngles = Eigen::Vector3d{1.5708, 1.5708, 1.5708}; // Default joint angles are set to 90 degrees (in radians)
+    linkLengths = Eigen::Vector3d{1.0, 1.0, 1.0}; // Default link lengths are set to 1.0 meter
+
+}
 
 ThreeDOFRobot::~ThreeDOFRobot() = default;
 
@@ -266,6 +270,13 @@ Eigen::Vector3d ThreeDOFRobot::solveInverseKinematicsNR(const Eigen::Vector3d &d
         theta += deltaTheta;
     }
     std::cout << "Error: " << error.norm() << std::endl;
+    if(error.norm() > tolerance)
+    {
+        std::cerr << "\n########################################################################" << std::endl;
+        std::cerr << "Solution did not converge." << std::endl;
+        std::cerr << "Last iteration result is given as the solution." << std::endl;
+        std::cerr << "########################################################################\n" << std::endl;
+    }
 
     auto normalizeRadians = [](double angle)
     {

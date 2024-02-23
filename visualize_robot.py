@@ -34,6 +34,10 @@ def setup_plot(ax=None):
 def display_plot():
     plt.legend()
     plt.show()
+def inverse_kinematics_1sol(joint_angles, end_effector_position):
+    setup_plot()
+    plot_robot(joint_angles, end_effector_position, 'Inverse Kinematics')
+    display_plot()
 
 def inverse_kinematics(joint_angles, end_effector_position):
     # Create the figure once here
@@ -108,22 +112,31 @@ def inCircleTest(circle_center_x, circle_center_y, circle_radius, end_effector_x
     plt.show()
     
 def main():
-    print("Incoming argument size: ", len(sys.argv))
-    
+    # Check if the number of arguments is correct and determine the mode of operation
     if len(sys.argv) == 6:
         # Get the end effector position and joint angles from command line arguments
         end_effector_x = float(sys.argv[1])
         end_effector_y = float(sys.argv[2])
         joint_angles = [float(arg) for arg in sys.argv[3:6]]
-        # Call the forward kinematics function with the provided end effector position and joint angles
         forward_kinematics(joint_angles, [end_effector_x, end_effector_y])
     elif len(sys.argv) == 9:
-        # Get the end effector position and joint angles from command line arguments
         end_effector_x = float(sys.argv[1])
         end_effector_y = float(sys.argv[2])
         joint_angles = [float(arg) for arg in sys.argv[3:9]]
-        # Call the inverse kinematics function with the provided end effector position and joint angles
+        #Check if any of joint angles is inf or nan
+        for i in joint_angles:
+            if np.isinf(i) or np.isnan(i):
+                print("############################################################################")
+                print("Invalid joint angles")
+                print("Target end effector position is not reachable by the robot arm. Please try again.")
+                print("############################################################################")
+                sys.exit(1)
         inverse_kinematics(joint_angles, [end_effector_x, end_effector_y])
+    elif len(sys.argv) == 7:
+        end_effector_x = float(sys.argv[1])
+        end_effector_y = float(sys.argv[2])
+        joint_angles = [float(arg) for arg in sys.argv[3:6]]
+        inverse_kinematics_1sol(joint_angles, [end_effector_x, end_effector_y])
     elif len(sys.argv) == 10:
         circle_center_x = float(sys.argv[1])
         circle_center_y = float(sys.argv[2])
@@ -134,8 +147,6 @@ def main():
         theta_2 = float(sys.argv[8])
         theta_3 = float(sys.argv[9])
         inCircleTest(circle_center_x, circle_center_y, circle_radius, end_effector_x, end_effector_y, theta_1, theta_2, theta_3)
-
-
     else:
         print("Invalid number of arguments")
         sys.exit(1)
