@@ -8,6 +8,10 @@ The ThreeDOFRobot library is a comprehensive C++ solution for solving the kinema
 
 Leveraging the Eigen library for vector and matrix operations, the ThreeDOFRobot library ensures high performance and accuracy in kinematics calculations. It also integrates Python for runtime operations, utilizing matplotlib for plotting, thus providing a visually rich representation of the robotic arm's movements and positions.
 
+This software works as a standalone library and can be easily integrated into other robotics projects, providing a robust and efficient solution for solving the kinematics of a 3-DOF robotic arm.
+
+Also provides example code for the library usage, including Python integration for plotting the robotic arm's configuration. You can use the example and give the inputs from the terminal and use it like console application.
+
 ## Features
 
 - **Forward Kinematics**: Solve using either the Denavit-Hartenberg (DH) parameters or direct linear algebra methods.
