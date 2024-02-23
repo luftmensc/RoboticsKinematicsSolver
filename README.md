@@ -40,22 +40,22 @@ pip3 install matplotlib
 
 ### Linux Installation
 
-**Clone the Repository**
-
+1. **Clone the Repository**
+The source code is hosted on GitHub: [luftmensc/RoboticsKinematicsSolver](https://github.com/luftmensc/RoboticsKinematicsSolver).
 ```
 git clone https://github.com/luftmensc/RoboticsKinematicsSolver.git
 ```
-**Navigate to the Directory and Create a Build Folder**
+2. **Navigate to the Directory and Create a Build Folder**
 ```
 cd RoboticsKinematicsSolver
 mkdir build
 cd build
 ```
-**Build the Library**
+3. **Build the Library**
 ```
 cmake .. && make
 ```
-**Run the Example to Verify the Installation**
+4. **Run the Example to Verify the Installation**
 ```
 ./example
 ```
