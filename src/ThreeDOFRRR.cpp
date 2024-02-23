@@ -202,16 +202,6 @@ std::vector<Eigen::Vector3d> ThreeDOFRobot::solveInverseKinematics2Solution(cons
     th3 = normalizeRadians(th3);
     solutions.push_back(Eigen::Vector3d(th1, th2, th3));
 
-    /*
-     * Check if the target is on the edge of the workspace. If so, return only one solution. In the test cases,
-     * we will check vector size to determine if the target is on the edge of the workspace.
-     */
-
-    /*if (endEffectorXYW[0] * endEffectorXYW[0] + endEffectorXYW[1] * endEffectorXYW[1] == maxReach * maxReach)
-    {
-        return solutions;
-    }*/
-
     double th2_2 = -th2;
     double th1_2 = atan2(p_2y, p_2x) - atan2(linkLengths[1] * sin(th2_2), linkLengths[0] + linkLengths[1] * cos(th2_2));
     double th3_2 = phi - th1_2 - th2_2;

@@ -183,13 +183,19 @@ TEST(InverseKinematics2Solution, TargetAtMaximumReach) {
 
     auto solutions = robot->solveInverseKinematics2Solution(endEffectorXYW);
 
-    // Check if the solutions vector contains exactly one solution
-    EXPECT_EQ(solutions.size(), 1);
+    // Check if the solutions vector contains 2 same solutions
+    EXPECT_EQ(solutions.size(), 2);
 
-    Eigen::Vector3d expectedSolution{0.0, 0.0, 0.0};
-    EXPECT_NEAR(solutions[0][0], expectedSolution[0], 1e-3);
-    EXPECT_NEAR(solutions[0][1], expectedSolution[1], 1e-3);
-    EXPECT_NEAR(solutions[0][2], expectedSolution[2], 1e-3);
+    EXPECT_NEAR(solutions[0][0], solutions[1][0], 1e-3);
+    EXPECT_NEAR(solutions[0][1], solutions[1][1], 1e-3);
+    EXPECT_NEAR(solutions[0][2], solutions[1][2], 1e-3);
+
+    // Check if the solutions are the expected solution
+    EXPECT_NEAR(solutions[0][0], 0.0, 1e-3);
+    EXPECT_NEAR(solutions[0][1], 0.0, 1e-3);
+    EXPECT_NEAR(solutions[0][2], 0.0, 1e-3);
+
+    
 }
 
 
