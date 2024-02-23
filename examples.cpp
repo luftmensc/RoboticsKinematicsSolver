@@ -232,7 +232,7 @@ int main()
                 std::cout<< "End effector is not in the circle"<<std::endl;
             }
             std::cout << "------------------------------------------------------------------------------------------------"<<std::endl;
-            std::string command = "python3 visualize_robot.py " + 
+            std::string command = "python3 visualize_robot.py" + 
                     std::to_string(CircleParams[0]) + " " +
                     std::to_string(CircleParams[1]) + " " +
                     std::to_string(CircleParams[2]) + " " +

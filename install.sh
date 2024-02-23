@@ -2,10 +2,18 @@
 
 # Stop script on any error
 set -e
+echo "Installing required packages for Robotics Kinematics Solver..."
+echo "cmake, g++, make, libeigen3-dev, python3, pip3, matplotlib, numpy will be installed."
+echo "Hit any key to continue or CTRL+C to exit."
+
+read -n 1 -s
 
 # Update and Upgrade Ubuntu Packages
 echo "Updating Ubuntu packages..."
 sudo apt-get update
+
+echo "Installing CMake..."
+sudo apt-get install cmake -y
 
 # Install Eigen3 for C++ (Eigen::Dense) if not already installed
 echo "Installing Eigen3 library for C++..."

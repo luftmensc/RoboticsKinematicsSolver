@@ -41,15 +41,16 @@ def inverse_kinematics(joint_angles, end_effector_position):
 
     # Plot first solution in the first subplot
     plt.subplot(1, 2, 1)  # (1 row, 2 columns, first subplot)
-    setup_plot()  # No longer creates a new figure
+    setup_plot()  
     plot_robot(joint_angles[:3], end_effector_position, 'Inverse Kinematics - Solution 1')
     plt.legend()
+
     # Plot second solution in the second subplot
     plt.subplot(1, 2, 2)  # (1 row, 2 columns, second subplot)
-    setup_plot()  # No longer creates a new figure
+    setup_plot() 
     plot_robot(joint_angles[3:], end_effector_position, 'Inverse Kinematics - Solution 2')
     plt.legend()
-    # Call to display_plot() moved to the end of the inverse_kinematics function
+    
     display_plot()
 
 def forward_kinematics(joint_angles, end_effector_position):
@@ -67,14 +68,15 @@ def inCircleTest(circle_center_x, circle_center_y, circle_radius, end_effector_x
 
     # Link lengths
     link_lengths = [1.0, 1.0, 1.0]
-
+    angle_sum=0
     # Calculate joint positions based on thetas
     joint_positions = [[0, 0]]  # Base at origin
     for i, theta in enumerate([theta_1, theta_2, theta_3], start=1):
         prev_x, prev_y = joint_positions[-1]
         angle = np.radians(theta)
-        x = prev_x + link_lengths[i-1] * np.cos(angle)
-        y = prev_y + link_lengths[i-1] * np.sin(angle)
+        angle_sum+=angle
+        x = prev_x + link_lengths[i-1] * np.cos(angle_sum)
+        y = prev_y + link_lengths[i-1] * np.sin(angle_sum)
         joint_positions.append([x, y])
 
     # Create the figure and the axes
@@ -107,7 +109,7 @@ def inCircleTest(circle_center_x, circle_center_y, circle_radius, end_effector_x
     
 def main():
     print("Incoming argument size: ", len(sys.argv))
-
+    
     if len(sys.argv) == 6:
         # Get the end effector position and joint angles from command line arguments
         end_effector_x = float(sys.argv[1])
@@ -128,9 +130,9 @@ def main():
         circle_radius = float(sys.argv[3])
         end_effector_x = float(sys.argv[4])
         end_effector_y = float(sys.argv[5])
-        theta_1 = float(sys.argv[6])
-        theta_2 = float(sys.argv[7])
-        theta_3 = float(sys.argv[8])
+        theta_1 = float(sys.argv[7])
+        theta_2 = float(sys.argv[8])
+        theta_3 = float(sys.argv[9])
         inCircleTest(circle_center_x, circle_center_y, circle_radius, end_effector_x, end_effector_y, theta_1, theta_2, theta_3)
 
 
