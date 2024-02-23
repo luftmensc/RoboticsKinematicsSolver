@@ -1,53 +1,75 @@
-# RoboticsKinematicsSolver
-Forward and Inverse Kinematics Solver Library from Scratch
-# ThreeDOFRobot Kinematics Solver
 
-## Overview
-
-The ThreeDOFRobot library is a comprehensive C++ solution for solving the kinematics of a 3-DOF (Degree of Freedom) RRR (Revolute-Revolute-Revolute) type robotic arm. This library allows users to set joint angles, link lengths, and calculate the position of the end effector through both forward and inverse kinematics approaches. Additionally, it includes functionality to check if the end effector is within a given circle, making it a versatile tool for robotics applications.
-
-Leveraging the Eigen library for vector and matrix operations, the ThreeDOFRobot library ensures high performance and accuracy in kinematics calculations. It also integrates Python for runtime operations, utilizing matplotlib for plotting, thus providing a visually rich representation of the robotic arm's movements and positions.
-
-This software works as a standalone library and can be easily integrated into other robotics projects, providing a robust and efficient solution for solving the kinematics of a 3-DOF robotic arm.
-
-Also provides example code for the library usage, including Python integration for plotting the robotic arm's configuration. You can use the example and give the inputs from the terminal and use it like console application.
+# Robotics Kinematics Solver
+## Introduction
+This document serves as a comprehensive guide for the Robotics Kinematics Solver, a specialized library designed for addressing the kinematics of a three-degree-of-freedom (3-DOF) Planar robotic arm characterized by a Revolute-Revolute-Revolute (RRR) joint configuration. The library's objective is to facilitate accurate and efficient kinematic analysis, incorporating both forward and inverse kinematics, alongside the capability to validate the end effector's position within specified parameters.
+## Library Composition
+The library is developed in C++, utilizing the Eigen library for sophisticated vector and matrix operations, thereby ensuring optimal performance and precision in computations. Furthermore, it integrates Python for executing runtime scripts, employing matplotlib for the graphical representation of the robotic arm's trajectory and positional states.
 
 ## Features
 
-- **Forward Kinematics**: Solve using either the Denavit-Hartenberg (DH) parameters or direct linear algebra methods.
-- **Inverse Kinematics**: Offers both algebraic and numerical optimization (Newton-Raphson) solutions, including handling multiple possible solutions.
-- **End Effector Position Check**: Function to verify if the end effector is within a specified circle, based on its current position.
-- **Python Integration**: Runs Python scripts at runtime for plotting with matplotlib, allowing for easy visualization of the robotic arm's configuration.
+**Forward Kinematics**: Implements both the Denavit-Hartenberg (DH) parameter method and direct linear algebra approaches for calculating the position and orientation of the end effector.
 
-## Installation
+**Inverse Kinematics**: Provides solutions through algebraic methods and numerical optimization techniques, such as the Newton-Raphson method, accommodating multiple potential solutions.
 
-- sudo apt-get install libeigen3-dev
-- sudo apt-get install python3-matplotlib
-- sudo apt-get install python3-pip
-- pip3 install matplotlib
+**End Effector Position Verification**: Includes a function to ascertain whether the end effector resides within a predefined circular area, enhancing the utility for specific robotic applications.
 
+**Python Integration**: Facilitates the visualization of the robotic arm's configuration via matplotlib, enhancing the interpretability of its kinematic state.
+
+## Installation and Setup
 
 ### Prerequisites
 
+- g++ atleast 14
 - CMake (version 3.10 or higher)
 - Eigen3 (version 3.3 or higher)
 - Python (version 3.8.10)
 - matplotlib for Python plotting
 
+
+- **For installation, users may execute the installation.sh script for automated setup. Alternatively, manual installation steps are provided below:**
+```
+sudo apt-get install cmake -y
+sudo apt-get install g++ make -y
+sudo apt-get install libeigen3-dev -y
+sudo apt-get install python3-matplotlib
+sudo apt-get install python3-pip
+pip3 install matplotlib
+```
+
 ### Building the Library
 
 ### Linux Installation
 
-1. **Clone the Repository**
+**Clone the Repository**
 
-- git clone https://github.com/luftmensc/RoboticsKinematicsSolver.git   
-- cd RoboticsKinematicsSolver
-- mkdir build
-- cd build
-- cmake .. && make
+```
+git clone https://github.com/luftmensc/RoboticsKinematicsSolver.git
+```
+**Navigate to the Directory and Create a Build Folder**
+```
+cd RoboticsKinematicsSolver
+mkdir build
+cd build
+```
+**Build the Library**
+```
+cmake .. && make
+```
+**Run the Example to Verify the Installation**
+```
+./example
+```
 
-2. **Run the Example Executable Program With Python Integration**
-- ./example
-
+## GTest
+Post-compilation, execute the test suite to confirm the library's integrity:
+```
+cd tests && ./test_main
+```
+## Documentation with Doxygen
+**To generate comprehensive documentation, ensure Doxygen is installed and execute it within the docs directory using the provided Doxyfile:**:
+```
+sudo apt install doxygen
+cd docs && doxygen
+```
 
 
