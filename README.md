@@ -71,5 +71,9 @@ cd tests && ./test_main
 sudo apt install doxygen
 cd docs && doxygen
 ```
+Then, navigate to the html directory and open the index.html file in a web browser to access the documentation. For instance, using Firefox:
+```
+cd html && firefox index.html
+```
 
 
